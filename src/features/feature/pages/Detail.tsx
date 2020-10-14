@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Form, Label } from "@jfront/ui-core";
-import { deleteFeature, getFeature } from "../../../api/feature/FeatureApi";
-import { Feature } from "../../../api/feature/FeatureInterface";
+import { deleteFeature, getFeature } from "../api/FeatureApi";
+import { Feature } from "../api/FeatureInterface";
 import { useHistory, useParams } from "react-router-dom";
 import {
   Toolbar,

@@ -12,11 +12,11 @@ import {
 } from "@jfront/ui-core";
 import { useHistory } from "react-router-dom";
 import { Form } from "@jfront/ui-core";
-import { FeatureSearchTemplate } from "../../../api/feature/FeatureInterface";
+import { FeatureSearchTemplate } from "../api/FeatureInterface";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
-import { FeatureStatusOptions } from "../../../api/feature-process/FeatureProcessInterface";
-import { getFeatureStatusOptions } from "../../../api/feature-process/FeatureProcessApi";
+import { FeatureStatusOptions } from "../../feature-process/api/FeatureProcessInterface";
+import { getFeatureStatusOptions } from "../../feature-process/api/FeatureProcessApi";
 import { useFormik } from "formik";
 import { DatePicker } from "@jfront/ui-core";
 import { useTranslation } from "react-i18next";

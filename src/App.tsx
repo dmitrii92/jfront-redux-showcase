@@ -1,17 +1,16 @@
 import React, { useState, Suspense, useEffect } from "react";
-
-import DetailPage from "./pages/feature/view/Detail";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import CreatePage from "./pages/feature/create/Create";
-import SearchPage from "./pages/feature/search/Search";
-import ListPage from "./pages/feature/view/List";
-import EditPage from "./pages/feature/edit/Edit";
-import FeatureProcessListPage from "./pages/feature-process/view/List";
-import FeatureProcessDetailPage from "./pages/feature-process/view/Detail";
-import FeatureProcessCreatePage from "./pages/feature-process/create/Create";
-import { SearchContext, SearchContextInterface } from "./context";
 import { useTranslation } from "react-i18next";
-import { FeatureSearchTemplate } from "./api/feature/FeatureInterface";
+import DetailPage from "./features/feature/pages/Detail";
+import CreatePage from "./features/feature/pages/Create";
+import SearchPage from "./features/feature/pages/Search";
+import ListPage from "./features/feature/pages/List";
+import EditPage from "./features/feature/pages/Edit";
+import FeatureProcessListPage from "./features/feature-process/pages/List";
+import FeatureProcessDetailPage from "./features/feature-process/pages/Detail";
+import FeatureProcessCreatePage from "./features/feature-process/pages/Create";
+import { FeatureSearchTemplate } from "./features/feature/api/FeatureInterface";
+import { SearchContext, SearchContextInterface } from "./context";
 
 const Loader = () => (
   <div>

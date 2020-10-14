@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
-import {FeatureProcess} from "../../../api/feature-process/FeatureProcessInterface";
+import {FeatureProcess} from "../api/FeatureProcessInterface";
 import {
   deleteFeatureProcess,
   getFeatureProcess
-} from "../../../api/feature-process/FeatureProcessApi";
+} from "../api/FeatureProcessApi";
 import {Tab, TabPanel} from "@jfront/ui-core";
 import {
   Toolbar,

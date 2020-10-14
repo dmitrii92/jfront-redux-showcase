@@ -11,11 +11,11 @@ import {
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { Grid } from "@jfront/ui-core";
-import { FeatureProcess } from "../../../api/feature-process/FeatureProcessInterface";
+import { FeatureProcess } from "../api/FeatureProcessInterface";
 import {
   deleteFeatureProcess,
   findFeatureProcess,
-} from "../../../api/feature-process/FeatureProcessApi";
+} from "../api/FeatureProcessApi";
 import { useTranslation } from "react-i18next";
 
 const FeatureProcessListPage = () => {

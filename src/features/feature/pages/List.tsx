@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Feature, FeatureSearchTemplate } from "../../../api/feature/FeatureInterface";
+import { Feature, FeatureSearchTemplate } from "../api/FeatureInterface";
 import {
   Toolbar,
   ToolbarButtonBase,
@@ -17,13 +17,13 @@ import {
   getResultSetSize,
   searchFeatures,
   postSearchRequest,
-} from "../../../api/feature/FeatureApi";
+} from "../api/FeatureApi";
 import { Grid } from "@jfront/ui-core";
 import { Panel } from "@jfront/ui-core";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { useTranslation } from "react-i18next";
 import queryString from "query-string";
-import { SearchRequest } from "../../../api/types";
+import { SearchRequest } from "../../../app/common/types";
 import { SearchContext } from "../../../context";
 
 const useQuery = () => {

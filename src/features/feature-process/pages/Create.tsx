@@ -16,12 +16,12 @@ import {useHistory, useParams} from "react-router-dom";
 import {
   FeatureProcessCreate,
   FeatureStatusOptions
-} from "../../../api/feature-process/FeatureProcessInterface";
+} from "../api/FeatureProcessInterface";
 import {Form} from "@jfront/ui-core";
 import {
   createFeatureProcess,
   getFeatureStatusOptions
-} from "../../../api/feature-process/FeatureProcessApi";
+} from "../api/FeatureProcessApi";
 import {useFormik} from "formik";
 import {useTranslation} from "react-i18next";
 

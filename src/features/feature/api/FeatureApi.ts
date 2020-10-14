@@ -5,7 +5,7 @@ import {
   FeatureSearchTemplate,
   FeatureUpdate,
 } from "./FeatureInterface";
-import { SearchRequest } from "../types";
+import { SearchRequest } from "../../../app/common/types";
 
 const API_URL = "https://jepria-spring-feature.herokuapp.com";
 const USER = "user";

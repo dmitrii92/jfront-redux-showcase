@@ -1,5 +1,5 @@
 import React from "react";
-import { FeatureSearchTemplate } from "./api/feature/FeatureInterface";
+import { FeatureSearchTemplate } from "./features//feature/api/FeatureInterface";
 
 export interface SearchContextInterface {
   getId(): string;

@@ -6,7 +6,7 @@ export interface Feature {
   dateIns: Date;
   featureStatus?: {
     name: string;
-    value: number
+    value: number;
   };
   author?: {
     name: string;
@@ -22,14 +22,14 @@ export type FeatureCreate = {
   featureName: string;
   featureNameEn: string;
   description?: string;
-}
+};
 
 export type FeatureUpdate = {
   featureName: string;
   featureNameEn: string;
   description?: string;
   responsibleId?: number;
-}
+};
 
 export type FeatureSearchTemplate = {
   featureId?: number;
@@ -41,4 +41,4 @@ export type FeatureSearchTemplate = {
   /*authorId: number;
   responsibleId: number;
   maxRowCount: number;*/
-}
+};

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Form } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
-import { getFeature, updateFeature } from "../../../api/feature/FeatureApi";
-import { Feature, FeatureUpdate } from "../../../api/feature/FeatureInterface";
+import { getFeature, updateFeature } from "../api/FeatureApi";
+import { Feature, FeatureUpdate } from "../api/FeatureInterface";
 import { useHistory, useParams } from "react-router-dom";
 import {
   Toolbar,

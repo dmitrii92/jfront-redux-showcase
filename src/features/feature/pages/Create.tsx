@@ -12,8 +12,8 @@ import {
   ToolbarSplitter,
 } from "@jfront/ui-core";
 import { useHistory } from "react-router-dom";
-import { FeatureCreate } from "../../../api/feature/FeatureInterface";
-import { createFeature } from "../../../api/feature/FeatureApi";
+import { FeatureCreate } from "../api/FeatureInterface";
+import { createFeature } from "../api/FeatureApi";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
 import { useFormik } from "formik";
