@@ -1,0 +1,33 @@
+{
+  "toolbar": {
+    "list": "Список",
+    "find": "Найти"
+  },
+  "feature": {
+    "header": "Запрос функционала",
+    "fields": {
+      "featureId": "Идентификатор",
+      "featureNameTemplate": "Наименование",
+      "featureNameEnTemplate": "Наименование анлийское",
+      "dateInsFrom": "Дата создания, от",
+      "dateInsTo": "Дата создания, до",
+      "statusCodeList": "Статус",
+      "featureStatus": "Статус",
+      "featureName": "Наименование",
+      "featureNameEn": "Наименование английское",
+      "dateIns": "Дата создания",
+      "description": "Описание",
+      "author": "Автор",
+      "responsible": "Ответственный",
+      "workSequence": "Порядок выполнения"
+    }
+  },
+  "feature-process": {
+    "header": "Статус",
+    "fields": {
+      "featureStatusCode": "Статус",
+      "featureStatusName": "Статус",
+      "dateIns": "Дата создания"
+    }
+  }
+}

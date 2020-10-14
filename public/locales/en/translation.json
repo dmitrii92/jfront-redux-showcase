@@ -1,0 +1,33 @@
+{
+  "toolbar": {
+    "list": "List",
+    "find": "Find"
+  },
+  "feature": {
+    "header": "Feature Request",
+    "fields": {
+      "featureId": "ID",
+      "featureNameTemplate": "Name",
+      "featureNameEnTemplate": "Name eng",
+      "dateInsFrom": "Creation Date, from",
+      "dateInsTo": "Creation Date, to",
+      "statusCodeList": "Status",
+      "featureStatus": "Status",
+      "featureName": "Name",
+      "featureNameEn": "Name eng",
+      "dateIns": "Creation Date",
+      "description": "Description",
+      "author": "Author",
+      "responsible": "Responsible",
+      "workSequence": "Work Sequence"
+    }
+  },
+  "feature-process": {
+    "header": "Status",
+    "fields": {
+      "featureStatusCode": "Status",
+      "featureStatusName": "Status",
+      "dateIns": "Creation Date"
+    }
+  }
+}
