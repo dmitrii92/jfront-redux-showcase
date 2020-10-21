@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Form } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
 import { getFeature, updateFeature } from "../api/FeatureApi";
@@ -27,9 +27,9 @@ const EditPage = () => {
   let { featureId } = useParams();
   const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
-  
+
   const dispatch = useDispatch();
-  const currentFeature: Feature = useSelector(selectFeature);  
+  const currentFeature: Feature = useSelector(selectFeature);
 
   const onSubmit = (data: FeatureUpdate) => {
     if (featureId) {
@@ -41,22 +41,15 @@ const EditPage = () => {
 
   useEffect(() => {
     getFeature(featureId).then((feature) => {
-      setCurrentFeature(feature);
       dispatch(setCurrentFeature(feature));
     });
   }, []);
 
   const formik = useFormik<FeatureUpdate>({
     initialValues: {
-      featureName: currentFeature?.featureName
-        ? currentFeature?.featureName
-        : "",
-      featureNameEn: currentFeature?.featureNameEn
-        ? currentFeature?.featureNameEn
-        : "",
-      description: currentFeature?.description
-        ? currentFeature?.description
-        : "",
+      featureName: currentFeature?.featureName ? currentFeature?.featureName : "",
+      featureNameEn: currentFeature?.featureNameEn ? currentFeature?.featureNameEn : "",
+      description: currentFeature?.description ? currentFeature?.description : "",
     },
     onSubmit: (values: FeatureUpdate) => {
       onSubmit(values);
@@ -81,9 +74,7 @@ const EditPage = () => {
         />
         <ToolbarButtonEdit disabled={true} />
         <ToolbarButtonDelete />
-        <ToolbarButtonView
-          onClick={() => history.push(`/${featureId}/detail`)}
-        />
+        <ToolbarButtonView onClick={() => history.push(`/${featureId}/detail`)} />
         <ToolbarSplitter />
         <ToolbarButtonBase
           onClick={() => {
@@ -94,9 +85,7 @@ const EditPage = () => {
           {t("toolbar.list")}
         </ToolbarButtonBase>
         <ToolbarButtonFind onClick={() => history.push(`/`)} />
-        <ToolbarButtonBase disabled={true}>
-          {t("toolbar.find")}
-        </ToolbarButtonBase>
+        <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
       </Toolbar>
       <Form id="edit-form" onSubmit={formik.handleSubmit}>
         <Form.Field>
@@ -144,7 +133,9 @@ const EditPage = () => {
               textAlign: "left",
             }}
           >
-            {currentFeature?.dateIns.toString() ? new Date(currentFeature?.dateIns.toString()).toLocaleDateString() : ""}
+            {currentFeature?.dateIns.toString()
+              ? new Date(currentFeature?.dateIns.toString()).toLocaleDateString()
+              : ""}
           </Form.Label>
         </Form.Field>
         <Form.Field>

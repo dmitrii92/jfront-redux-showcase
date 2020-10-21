@@ -25,6 +25,8 @@ import { useTranslation } from "react-i18next";
 import queryString from "query-string";
 import { SearchRequest } from "../../../app/common/types";
 import { SearchContext } from "../../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFeature, setCurrentFeature } from "../featureSlice";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -38,10 +40,12 @@ const ListPage = () => {
   const pageSize: number = parseInt(query.get("pageSize") as string);
   const page: number = parseInt(query.get("page") as string);
   const [features, setFeatures] = useState<Feature[]>([]);
-  const [currentFeature, setCurrentFeature] = useState<Feature>();
   const { t } = useTranslation();
   const searchContext = useContext(SearchContext);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const dispatch = useDispatch();
+  const currentFeature: Feature = useSelector(selectFeature);
 
   const find = () => {
     let searchTemplate = queryString.parse(location.search);
@@ -175,9 +179,9 @@ const ListPage = () => {
             onSelection={(selectedFeatures) => {
               console.log(selectedFeatures);
               if (selectedFeatures.length === 1) {
-                setCurrentFeature(selectedFeatures[0]);
+                dispatch(setCurrentFeature(selectedFeatures[0]));
               } else {
-                setCurrentFeature(undefined);
+                dispatch(setCurrentFeature(undefined));
               }
             }}
             onDoubleClick={(feature) => {
