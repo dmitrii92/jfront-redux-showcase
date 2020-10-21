@@ -17,18 +17,22 @@ import {
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFeature, setCurrentFeature } from "../featureSlice";
 
 const DetailPage = () => {
   const history = useHistory();
   let { featureId } = useParams();
   const [mainTabSelected, setMainTabSelected] = useState<boolean>(true);
-  const [currentFeature, setCurrentFeature] = useState<Feature>();
   const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
 
+  const dispatch = useDispatch();
+  const currentFeature: Feature = useSelector(selectFeature);
+
   useEffect(() => {
     getFeature(featureId).then((feature) => {
-      setCurrentFeature(feature);
+      dispatch(setCurrentFeature(feature));
     });
   }, []);
 
@@ -91,7 +95,9 @@ const DetailPage = () => {
       <Form>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureId")}:</Form.Label>
-          <Form.Label style={{ width: "350px", justifyContent: "flex-start" }}>{currentFeature?.featureId}</Form.Label>
+          <Form.Label style={{ width: "350px", justifyContent: "flex-start" }}>
+            {currentFeature?.featureId}
+          </Form.Label>
         </Form.Field>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureStatus")}:</Form.Label>
@@ -106,7 +112,9 @@ const DetailPage = () => {
         </Form.Field>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureName")}:</Form.Label>
-          <Form.Label style={{ width: "350px", justifyContent: "flex-start" }}>{currentFeature?.featureName}</Form.Label>
+          <Form.Label style={{ width: "350px", justifyContent: "flex-start" }}>
+            {currentFeature?.featureName}
+          </Form.Label>
         </Form.Field>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureNameEn")}:</Form.Label>
@@ -124,7 +132,9 @@ const DetailPage = () => {
         </Form.Field>
         <Form.Field>
           <Form.Label>{t("feature.fields.description")}:</Form.Label>
-          <Form.Label style={{ width: "350px", justifyContent: "flex-start" }}>{currentFeature?.description}</Form.Label>
+          <Form.Label style={{ width: "350px", justifyContent: "flex-start" }}>
+            {currentFeature?.description}
+          </Form.Label>
         </Form.Field>
         <Form.Field>
           <Form.Label>{t("feature.fields.author")}:</Form.Label>
