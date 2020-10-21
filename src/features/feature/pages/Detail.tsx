@@ -18,7 +18,7 @@ import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { selectFeature, setCurrentFeature } from "../featureSlice";
+import { fetchFeature, selectError, selectFeature } from "../featureSlice";
 
 const DetailPage = () => {
   const history = useHistory();
@@ -29,11 +29,10 @@ const DetailPage = () => {
 
   const dispatch = useDispatch();
   const currentFeature: Feature = useSelector(selectFeature);
+  const error = useSelector(selectError);
 
   useEffect(() => {
-    getFeature(featureId).then((feature) => {
-      dispatch(setCurrentFeature(feature));
-    });
+    dispatch(fetchFeature(featureId));
   }, []);
 
   return (
@@ -92,6 +91,7 @@ const DetailPage = () => {
         <ToolbarButtonFind onClick={() => history.push(`/`)} />
         <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
       </Toolbar>
+      {error ? <div>{error}</div> : null}
       <Form>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureId")}:</Form.Label>
@@ -125,9 +125,11 @@ const DetailPage = () => {
         <Form.Field>
           <Form.Label>{t("feature.fields.dateIns")}:</Form.Label>
           <Form.Label style={{ width: "350px", justifyContent: "flex-start" }}>
-            {currentFeature?.dateIns.toString()
-              ? new Date(currentFeature?.dateIns.toString()).toLocaleDateString()
-              : ""}
+            {currentFeature
+              ? currentFeature?.dateIns.toString()
+                ? new Date(currentFeature?.dateIns.toString()).toLocaleDateString()
+                : ""
+              : null}
           </Form.Label>
         </Form.Field>
         <Form.Field>
