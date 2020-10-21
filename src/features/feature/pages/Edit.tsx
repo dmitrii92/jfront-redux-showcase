@@ -19,13 +19,17 @@ import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFeature, setCurrentFeature } from "../featureSlice";
 
 const EditPage = () => {
   const history = useHistory();
   let { featureId } = useParams();
   const searchContext = useContext(SearchContext);
-  const [currentFeature, setCurrentFeature] = useState<Feature>();
   const { t } = useTranslation();
+  
+  const dispatch = useDispatch();
+  const currentFeature: Feature = useSelector(selectFeature);  
 
   const onSubmit = (data: FeatureUpdate) => {
     if (featureId) {
@@ -38,6 +42,7 @@ const EditPage = () => {
   useEffect(() => {
     getFeature(featureId).then((feature) => {
       setCurrentFeature(feature);
+      dispatch(setCurrentFeature(feature));
     });
   }, []);
 
