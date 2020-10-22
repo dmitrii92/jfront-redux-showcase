@@ -1,40 +1,26 @@
 import axios from "axios";
-import {
-  Feature,
-  FeatureCreate,
-  FeatureSearchTemplate,
-  FeatureUpdate,
-} from "./FeatureInterface";
+import { Feature, FeatureCreate, FeatureSearchTemplate, FeatureUpdate } from "./FeatureInterface";
 import { SearchRequest } from "../../../app/common/types";
 
 const API_URL = "https://jepria-spring-feature.herokuapp.com";
-const USER = "user";
-const PASSWORD = "123";
 const withCredentials = false;
 
 export const getFeature = (id?: string): Promise<Feature> => {
   const url = `${API_URL}/feature/${id}/`;
-
   axios.defaults.withCredentials = withCredentials;
   return axios
-    .get(
-      url
-      // {auth: {username: `${USER}`, password: `${PASSWORD}`}}
-    )
+    .get(url)
     .then((response) => response.data)
     .catch((reason) => {
-      console.log(reason);
       return Promise.reject(reason);
     });
 };
 
 export const createFeature = (feature: FeatureCreate): Promise<Feature> => {
   const url = `${API_URL}/feature`;
-
   return new Promise<Feature>((resolve, reject) => {
     axios
       .post(url, feature, {
-        // auth: {username: `${USER}`, password: `${PASSWORD}`},
         headers: {
           Accept: "application/json;charset=utf-8",
           "Content-Type": "application/json;charset=utf-8",
@@ -43,10 +29,8 @@ export const createFeature = (feature: FeatureCreate): Promise<Feature> => {
       .then((response) => {
         if (201 === response.status) {
           let location: string = response.headers["location"];
-          console.log("location" + location);
           axios
             .get(location, {
-              // auth: {username: `${USER}`, password: `${PASSWORD}`},
               headers: {
                 Accept: "application/json;charset=utf-8",
                 "Content-Type": "application/json;charset=utf-8",
@@ -68,16 +52,11 @@ export const createFeature = (feature: FeatureCreate): Promise<Feature> => {
   });
 };
 
-export const updateFeature = (
-  featureId: string,
-  feature: FeatureUpdate
-): Promise<Feature> => {
+export const updateFeature = (featureId: string, feature: FeatureUpdate): Promise<Feature> => {
   const url = `${API_URL}/feature/${featureId}/`;
-
   return new Promise<Feature>((resolve, reject) => {
     axios
       .put(url, feature, {
-        // auth: {username: `${USER}`, password: `${PASSWORD}`},
         headers: {
           Accept: "application/json;charset=utf-8",
           "Content-Type": "application/json;charset=utf-8",
@@ -97,7 +76,6 @@ export const updateFeature = (
 export const deleteFeature = (featureId: string): Promise<void> => {
   const url = `${API_URL}/feature/${featureId}`;
   axios.defaults.withCredentials = withCredentials;
-
   return new Promise<void>((resolve, reject) => {
     axios
       .delete(url, {
@@ -117,16 +95,12 @@ export const deleteFeature = (featureId: string): Promise<void> => {
   });
 };
 
-export const postSearchRequest = (
-  searchRequest: SearchRequest<FeatureSearchTemplate>
-) => {
+export const postSearchRequest = (searchRequest: SearchRequest<FeatureSearchTemplate>) => {
   const url = `${API_URL}/feature/search`;
   axios.defaults.withCredentials = withCredentials;
-  console.log(searchRequest);
   return new Promise<string>((resolve, reject) => {
     axios
       .post(url, searchRequest, {
-        // auth: {username: `${USER}`, password: `${PASSWORD}`},
         headers: {
           Accept: "application/json;charset=utf-8",
           "Content-Type": "application/json;charset=utf-8",
@@ -136,7 +110,6 @@ export const postSearchRequest = (
       .then((response) => {
         if (201 === response.status) {
           let location: string = response.headers["location"];
-          console.log(response);
           resolve(location.split("/").pop());
         } else {
           reject(response);
@@ -156,7 +129,6 @@ export const searchFeatures = (
   return new Promise<Array<Feature>>((resolve, reject) => {
     axios
       .get(url, {
-        // auth: {username: `${USER}`, password: `${PASSWORD}`},
         headers: {
           Accept: "application/json;charset=utf-8",
           "Content-Type": "application/json;charset=utf-8",
@@ -182,7 +154,6 @@ export const getResultSetSize = (searchId: string): Promise<number> => {
   return new Promise<number>((resolve, reject) => {
     axios
       .get(url, {
-        // auth: {username: `${USER}`, password: `${PASSWORD}`},
         headers: {
           Accept: "application/json;charset=utf-8",
           "Content-Type": "application/json;charset=utf-8",

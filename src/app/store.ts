@@ -1,10 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-// import calculatorReducer from '../features/calculator/calculatorSlice';
 import featureReducer from "../features/feature/featureSlice";
+import featureSearchReducer from "../features/feature/featureSearchSlice";
 
 export const store = configureStore({
   reducer: {
     feature: featureReducer,
+    featureSearch: featureSearchReducer,
   },
 });
 

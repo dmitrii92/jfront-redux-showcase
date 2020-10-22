@@ -27,6 +27,7 @@ import { SearchRequest } from "../../../app/common/types";
 import { SearchContext } from "../../../context";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
+import { selectSearchResult, fetchSearchFeatures, selectIsLoading } from "../featureSearchSlice";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -39,14 +40,14 @@ const ListPage = () => {
   const [searchSize, setSearchSize] = useState<number>(25);
   const pageSize: number = parseInt(query.get("pageSize") as string);
   const page: number = parseInt(query.get("page") as string);
-  const [features, setFeatures] = useState<Feature[]>([]);
   const { t } = useTranslation();
   const searchContext = useContext(SearchContext);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const dispatch = useDispatch();
   const currentFeature: Feature = useSelector(selectFeature);
-
+  const features: Array<Feature> = useSelector(selectSearchResult);
+  const isLoading = useSelector(selectIsLoading);
   const find = () => {
     let searchTemplate = queryString.parse(location.search);
     if (searchTemplate.page) {
@@ -66,31 +67,33 @@ const ListPage = () => {
         JSON.stringify(queryString.parse(location.search))
       )
     ) {
-      postSearchRequest(searchRequest).then((searchId) => {
-        setIsLoading(true);
-        getResultSetSize(searchId).then((resultSize) => {
-          if (resultSize > 0) {
-            searchContext.setTemplate(searchRequest.template);
-            searchContext.setId(searchId);
+      dispatch(fetchSearchFeatures(searchRequest, pageSize, page));
 
-            setSearchSize(resultSize);
-            if (searchId) {
-              searchFeatures(searchId, pageSize, page).then((features) => {
-                setFeatures(features);
-                setIsLoading(false);
-              });
-            }
-          } else {
-            alert("Search empty!");
-            setIsLoading(false);
-          }
-        });
-      });
-    } else {
-      searchFeatures(searchContext.getId(), pageSize, page).then((features) => {
-        setFeatures(features);
-        setIsLoading(false);
-      });
+      //   postSearchRequest(searchRequest).then((searchId) => {
+      //     setIsLoading(true);
+      //     getResultSetSize(searchId).then((resultSize) => {
+      //       if (resultSize > 0) {
+      //         searchContext.setTemplate(searchRequest.template);
+      //         searchContext.setId(searchId);
+
+      //         setSearchSize(resultSize);
+      //         if (searchId) {
+      //           searchFeatures(searchId, pageSize, page).then((features) => {
+      //             setFeatures(features);
+      //             setIsLoading(false);
+      //           });
+      //         }
+      //       } else {
+      //         alert("Search empty!");
+      //         setIsLoading(false);
+      //       }
+      //     });
+      //   });
+      // } else {
+      //   searchFeatures(searchContext.getId(), pageSize, page).then((features) => {
+      //     setFeatures(features);
+      //     setIsLoading(false);
+      //   });
     }
   };
 
