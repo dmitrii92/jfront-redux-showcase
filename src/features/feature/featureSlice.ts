@@ -1,6 +1,6 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { Feature } from "./api/FeatureInterface";
 import { AppThunk, RootState } from "./../../app/store";
-import { createSlice } from "@reduxjs/toolkit";
 import { getFeature } from "./api/FeatureApi";
 
 interface FeatureState {

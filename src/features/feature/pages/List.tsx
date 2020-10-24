@@ -61,40 +61,8 @@ const ListPage = () => {
       template: searchTemplate,
     };
 
-    if (
-      !Object.is(
-        JSON.stringify(searchContext.getTemplate()),
-        JSON.stringify(queryString.parse(location.search))
-      )
-    ) {
-      dispatch(fetchSearchFeatures(searchRequest, pageSize, page));
-
-      //   postSearchRequest(searchRequest).then((searchId) => {
-      //     setIsLoading(true);
-      //     getResultSetSize(searchId).then((resultSize) => {
-      //       if (resultSize > 0) {
-      //         searchContext.setTemplate(searchRequest.template);
-      //         searchContext.setId(searchId);
-
-      //         setSearchSize(resultSize);
-      //         if (searchId) {
-      //           searchFeatures(searchId, pageSize, page).then((features) => {
-      //             setFeatures(features);
-      //             setIsLoading(false);
-      //           });
-      //         }
-      //       } else {
-      //         alert("Search empty!");
-      //         setIsLoading(false);
-      //       }
-      //     });
-      //   });
-      // } else {
-      //   searchFeatures(searchContext.getId(), pageSize, page).then((features) => {
-      //     setFeatures(features);
-      //     setIsLoading(false);
-      //   });
-    }
+    console.log(`page = ${page}, pageSize = ${pageSize}`);
+    dispatch(fetchSearchFeatures(searchRequest, pageSize, page));
   };
 
   useEffect(() => {

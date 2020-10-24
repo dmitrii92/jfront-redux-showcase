@@ -19,6 +19,7 @@ import { SearchContext } from "../../../context";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFeature, selectError, selectFeature } from "../featureSlice";
+import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const DetailPage = () => {
   const history = useHistory();
@@ -32,6 +33,7 @@ const DetailPage = () => {
   const error = useSelector(selectError);
 
   useEffect(() => {
+    dispatch(setState(Workstates.FeatureDetail));
     dispatch(fetchFeature(featureId));
   }, []);
 
