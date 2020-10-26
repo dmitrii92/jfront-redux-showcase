@@ -12,6 +12,7 @@ import FeatureProcessCreatePage from "./features/feature-process/pages/Create";
 import { FeatureSearchTemplate } from "./features/feature/api/FeatureInterface";
 import { SearchContext, SearchContextInterface } from "./context";
 import AppTabPanel from "./features/tabpanel/AppTabPanel";
+import AppToolbar from "./features/toolbar/AppToolbar";
 
 const Loader = () => (
   <div>
@@ -50,6 +51,7 @@ function Main() {
     <SearchContext.Provider value={searchFeature}>
       <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
         <AppTabPanel />
+        <AppToolbar />
         <Switch>
           <Route path="/" exact component={SearchPage} />
           <Route path="/create" exact component={CreatePage} />
