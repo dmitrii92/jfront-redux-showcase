@@ -13,17 +13,12 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { selectFeature } from "../feature/featureSlice";
-import { selectSearchResult } from "../feature/featureSearchSlice";
-import { Feature } from "../feature/api/FeatureInterface";
-import { selectState, Workstates } from "../../app/WorkstateSlice";
+import { selectState, Workstates } from "../../../app/WorkstateSlice";
 
-const AppToolbar = () => {
+const FeatureProcessToolbar = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const state: Workstates = useSelector(selectState);
-  const currentFeature: Feature = useSelector(selectFeature);
-  const features: Array<Feature> = useSelector(selectSearchResult);
 
   const [buttonCreateEnabled, setButtonCreateEnabled] = useState(false);
   const [buttonEditEnabled, setButtonEditEnabled] = useState(false);
@@ -36,21 +31,6 @@ const AppToolbar = () => {
 
   useEffect(() => {
     switch (state) {
-      case Workstates.FeatureCreate:
-        setButtonCreateEnabled(true);
-        break;
-      case Workstates.FeatureDetail:
-        setButtonCreateEnabled(true);
-        break;
-      case Workstates.FeatureEdit:
-        setButtonCreateEnabled(true);
-        break;
-      case Workstates.FeatureList:
-        setButtonCreateEnabled(true);
-        break;
-      case Workstates.FeatureSearch:
-        setButtonCreateEnabled(true);
-        break;
       case Workstates.FeatureProcessCreate:
         setButtonCreateEnabled(false);
         break;
@@ -75,15 +55,9 @@ const AppToolbar = () => {
         onClick={() => history.push(`/create`)}
       />
       <ToolbarButtonSave disabled={!buttonSaveEnabled} />
-      <ToolbarButtonEdit
-        disabled={!currentFeature}
-        onClick={() => history.push(`/${currentFeature?.featureId}/edit`)}
-      />
+      <ToolbarButtonEdit disabled={!buttonEditEnabled} />
       <ToolbarButtonDelete disabled={!buttonDeleteEnabled} />
-      <ToolbarButtonView
-        disabled={!currentFeature}
-        onClick={() => history.push(`/${currentFeature?.featureId}/detail`)}
-      />
+      <ToolbarButtonView disabled={!buttonViewEnabled} />
       <ToolbarSplitter />
       <ToolbarButtonBase disabled={!buttonFindEnabled}>{t("toolbar.list")}</ToolbarButtonBase>
       <ToolbarButtonFind disabled={!buttonListEnabled} />
@@ -92,4 +66,4 @@ const AppToolbar = () => {
   );
 };
 
-export default AppToolbar;
+export default FeatureProcessToolbar;

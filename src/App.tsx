@@ -12,7 +12,8 @@ import FeatureProcessCreatePage from "./features/feature-process/pages/Create";
 import { FeatureSearchTemplate } from "./features/feature/api/FeatureInterface";
 import { SearchContext, SearchContextInterface } from "./context";
 import AppTabPanel from "./features/tabpanel/AppTabPanel";
-import AppToolbar from "./features/toolbar/AppToolbar";
+import FeatureToolbar from "./features/feature/components/FeatureToolbar";
+import FeatureProcessToolbar from "./features/feature-process/components/FeatureProcessToolbar";
 
 const Loader = () => (
   <div>
@@ -51,23 +52,39 @@ function Main() {
     <SearchContext.Provider value={searchFeature}>
       <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
         <AppTabPanel />
-        <AppToolbar />
         <Switch>
-          <Route path="/" exact component={SearchPage} />
-          <Route path="/create" exact component={CreatePage} />
-          <Route path="/:featureId/edit" exact component={EditPage} />
-          <Route path="/:featureId/detail" component={DetailPage} />
-          <Route path="/list" component={ListPage} />
-          <Route path="/:featureId/feature-process" exact component={FeatureProcessListPage} />
-          <Route
-            path="/:featureId/feature-process/:featureProcessId/detail"
-            component={FeatureProcessDetailPage}
-          />
-          <Route
-            path="/:featureId/feature-process/create"
-            exact
-            component={FeatureProcessCreatePage}
-          />
+          <Route path="/" exact>
+            <FeatureToolbar />
+            <SearchPage />
+          </Route>
+          <Route path="/create" exact>
+            <FeatureToolbar />
+            <CreatePage />
+          </Route>
+          <Route path="/:featureId/edit" exact>
+            <FeatureToolbar />
+            <EditPage />
+          </Route>
+          <Route path="/:featureId/detail">
+            <FeatureToolbar />
+            <DetailPage />
+          </Route>
+          <Route path="/list">
+            <FeatureToolbar />
+            <ListPage />
+          </Route>
+          <Route path="/:featureId/feature-process" exact>
+            <FeatureProcessToolbar />
+            <FeatureProcessListPage />
+          </Route>
+          <Route path="/:featureId/feature-process/:featureProcessId/detail">
+            <FeatureProcessToolbar />
+            <FeatureProcessDetailPage />
+          </Route>
+          <Route path="/:featureId/feature-process/create" exact>
+            <FeatureProcessToolbar />
+            <FeatureProcessCreatePage />
+          </Route>
         </Switch>
       </BrowserRouter>
     </SearchContext.Provider>
