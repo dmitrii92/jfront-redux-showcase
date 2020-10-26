@@ -11,7 +11,7 @@ import FeatureProcessDetailPage from "./features/feature-process/pages/Detail";
 import FeatureProcessCreatePage from "./features/feature-process/pages/Create";
 import { FeatureSearchTemplate } from "./features/feature/api/FeatureInterface";
 import { SearchContext, SearchContextInterface } from "./context";
-import AppTabPanel from "./features/TabPanel/AppTabPanel";
+import AppTabPanel from "./features/tabpanel/AppTabPanel";
 
 const Loader = () => (
   <div>

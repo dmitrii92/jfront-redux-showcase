@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Toolbar,
   ToolbarButtonBase,
@@ -8,15 +11,11 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { Grid } from "@jfront/ui-core";
 import { FeatureProcess } from "../api/FeatureProcessInterface";
-import {
-  deleteFeatureProcess,
-  findFeatureProcess,
-} from "../api/FeatureProcessApi";
-import { useTranslation } from "react-i18next";
+import { deleteFeatureProcess, findFeatureProcess } from "../api/FeatureProcessApi";
+import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const FeatureProcessListPage = () => {
   const location = useLocation();
@@ -26,6 +25,7 @@ const FeatureProcessListPage = () => {
   const [current, setCurrent] = useState<FeatureProcess>();
   let { featureId } = useParams();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const find = () => {
     if (featureId) {
@@ -37,6 +37,7 @@ const FeatureProcessListPage = () => {
 
   useEffect(() => {
     find();
+    dispatch(setState(Workstates.FeatureProcessList));
   }, [location]);
 
   console.log("Render");
@@ -100,7 +101,7 @@ const FeatureProcessListPage = () => {
           {
             Header: t("feature-process.fields.dateIns"),
             accessor: "dateIns",
-          },          
+          },
         ]}
         data={featureProcesses ? featureProcesses : []} //todo: bug in library
         onSelection={(selected) => {
@@ -116,7 +117,7 @@ const FeatureProcessListPage = () => {
             `/${featureProcess.featureId}/feature-process/${featureProcess.featureProcessId}/detail`
           );
         }}
-      />      
+      />
     </>
   );
 };

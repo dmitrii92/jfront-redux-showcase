@@ -3,6 +3,8 @@ import { Form } from "@jfront/ui-core";
 import { deleteFeature } from "../api/FeatureApi";
 import { Feature } from "../api/FeatureInterface";
 import { useHistory, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Toolbar,
   ToolbarButtonBase,
@@ -16,8 +18,6 @@ import {
 } from "@jfront/ui-core";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchFeature, selectError, selectFeature } from "../featureSlice";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
 
