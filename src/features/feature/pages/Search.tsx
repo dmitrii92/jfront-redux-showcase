@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Toolbar,
   ToolbarButtonBase,
@@ -24,6 +25,7 @@ import { FeatureSearchTemplate } from "../api/FeatureInterface";
 import { SearchContext } from "../../../context";
 import { FeatureStatusOptions } from "../../feature-process/api/FeatureProcessInterface";
 import { getFeatureStatusOptions } from "../../feature-process/api/FeatureProcessApi";
+import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const SearchPage = () => {
   const { t } = useTranslation();
@@ -31,6 +33,7 @@ const SearchPage = () => {
   const searchContext = useContext(SearchContext);
   let [statusOptions, setStatusOptions] = useState<FeatureStatusOptions[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const dispatch = useDispatch();
 
   const onSubmit = (data: FeatureSearchTemplate) => {
     if (!data.featureId) {
@@ -51,6 +54,7 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
+    dispatch(setState(Workstates.FeatureSearch));
     getFeatureStatusOptions().then((options) => {
       setStatusOptions(options);
       setIsLoading(false);

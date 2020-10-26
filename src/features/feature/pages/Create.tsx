@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { Form } from "@jfront/ui-core";
 import {
   Toolbar,
@@ -19,11 +20,13 @@ import { Tab, TabPanel } from "@jfront/ui-core";
 import { FeatureCreate } from "../api/FeatureInterface";
 import { createFeature } from "../api/FeatureApi";
 import { SearchContext } from "../../../context";
+import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const CreatePage = () => {
   const history = useHistory();
   const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const onSubmit = (data: FeatureCreate) => {
     createFeature(data).then((feature) => {
@@ -41,6 +44,10 @@ const CreatePage = () => {
       onSubmit(values);
     },
   });
+
+  useEffect(() => {
+    dispatch(setState(Workstates.FeatureCreate));
+  }, []);
 
   return (
     <>

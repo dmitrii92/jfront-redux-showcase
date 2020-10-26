@@ -21,6 +21,7 @@ import { SearchContext } from "../../../context";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
 import { getFeature, updateFeature } from "../api/FeatureApi";
 import { Feature, FeatureUpdate } from "../api/FeatureInterface";
+import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const EditPage = () => {
   const history = useHistory();
@@ -40,6 +41,7 @@ const EditPage = () => {
   };
 
   useEffect(() => {
+    dispatch(setState(Workstates.FeatureEdit));
     getFeature(featureId).then((feature) => {
       dispatch(setCurrentFeature(feature));
     });

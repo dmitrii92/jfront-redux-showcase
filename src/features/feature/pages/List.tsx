@@ -22,6 +22,7 @@ import { deleteFeature } from "../api/FeatureApi";
 import { SearchRequest } from "../../../app/common/types";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
 import { selectSearchResult, fetchSearchFeatures, selectIsLoading } from "../featureSearchSlice";
+import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -58,6 +59,7 @@ const ListPage = () => {
   };
 
   useEffect(() => {
+    dispatch(setState(Workstates.FeatureList));
     find();
   }, [location]);
 
