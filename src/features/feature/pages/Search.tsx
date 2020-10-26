@@ -1,4 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useFormik } from "formik";
+import queryString from "query-string";
+import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import {
   Toolbar,
   ToolbarButtonBase,
@@ -10,20 +14,16 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { useHistory } from "react-router-dom";
 import { Form } from "@jfront/ui-core";
-import { FeatureSearchTemplate } from "../api/FeatureInterface";
+import { DatePicker } from "@jfront/ui-core";
+import { CheckBoxGroup } from "@jfront/ui-core";
+import { CheckBox } from "@jfront/ui-core";
+import { TextInput } from "@jfront/ui-core";
 import { Tab, TabPanel } from "@jfront/ui-core";
+import { FeatureSearchTemplate } from "../api/FeatureInterface";
 import { SearchContext } from "../../../context";
 import { FeatureStatusOptions } from "../../feature-process/api/FeatureProcessInterface";
 import { getFeatureStatusOptions } from "../../feature-process/api/FeatureProcessApi";
-import { useFormik } from "formik";
-import { DatePicker } from "@jfront/ui-core";
-import { useTranslation } from "react-i18next";
-import { CheckBoxGroup } from "@jfront/ui-core";
-import { CheckBox } from "@jfront/ui-core";
-import queryString from "query-string";
-import { TextInput } from "@jfront/ui-core";
 
 const SearchPage = () => {
   const { t } = useTranslation();

@@ -1,4 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory, useLocation } from "react-router-dom";
+import queryString from "query-string";
+import { useDispatch, useSelector } from "react-redux";
 import { Feature, FeatureSearchTemplate } from "../api/FeatureInterface";
 import {
   Toolbar,
@@ -11,21 +15,11 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { useHistory, useLocation } from "react-router-dom";
-import {
-  deleteFeature,
-  getResultSetSize,
-  searchFeatures,
-  postSearchRequest,
-} from "../api/FeatureApi";
 import { Grid } from "@jfront/ui-core";
 import { Panel } from "@jfront/ui-core";
 import { Tab, TabPanel } from "@jfront/ui-core";
-import { useTranslation } from "react-i18next";
-import queryString from "query-string";
+import { deleteFeature } from "../api/FeatureApi";
 import { SearchRequest } from "../../../app/common/types";
-import { SearchContext } from "../../../context";
-import { useDispatch, useSelector } from "react-redux";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
 import { selectSearchResult, fetchSearchFeatures, selectIsLoading } from "../featureSearchSlice";
 
@@ -37,11 +31,9 @@ const ListPage = () => {
   const history = useHistory();
   const location = useLocation();
   let query = useQuery();
-  const [searchSize, setSearchSize] = useState<number>(25);
   const pageSize: number = parseInt(query.get("pageSize") as string);
   const page: number = parseInt(query.get("page") as string);
   const { t } = useTranslation();
-  const searchContext = useContext(SearchContext);
   // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const dispatch = useDispatch();

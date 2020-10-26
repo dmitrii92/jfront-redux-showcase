@@ -1,4 +1,7 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { Form } from "@jfront/ui-core";
 import {
   Toolbar,
@@ -11,14 +14,11 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { useHistory } from "react-router-dom";
+import { TextInput } from "@jfront/ui-core";
+import { Tab, TabPanel } from "@jfront/ui-core";
 import { FeatureCreate } from "../api/FeatureInterface";
 import { createFeature } from "../api/FeatureApi";
-import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
-import { useFormik } from "formik";
-import { useTranslation } from "react-i18next";
-import { TextInput } from "@jfront/ui-core";
 
 const CreatePage = () => {
   const history = useHistory();
@@ -72,13 +72,11 @@ const CreatePage = () => {
           {t("toolbar.list")}
         </ToolbarButtonBase>
         <ToolbarButtonFind onClick={() => history.push(`/`)} />
-        <ToolbarButtonBase disabled={true}>
-          {t("toolbar.find")}
-        </ToolbarButtonBase>
+        <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
       </Toolbar>
       <Form id="create-form" onSubmit={formik.handleSubmit}>
         <Form.Field>
-        <Form.Label>{t("feature.fields.featureName")}</Form.Label>
+          <Form.Label>{t("feature.fields.featureName")}</Form.Label>
           <TextInput
             name="featureName"
             value={formik.values.featureName}

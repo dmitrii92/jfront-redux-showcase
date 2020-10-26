@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Form } from "@jfront/ui-core";
-import { deleteFeature } from "../api/FeatureApi";
-import { Feature } from "../api/FeatureInterface";
 import { useHistory, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { Form } from "@jfront/ui-core";
 import {
   Toolbar,
   ToolbarButtonBase,
@@ -17,6 +15,8 @@ import {
   ToolbarSplitter,
 } from "@jfront/ui-core";
 import { Tab, TabPanel } from "@jfront/ui-core";
+import { deleteFeature } from "../api/FeatureApi";
+import { Feature } from "../api/FeatureInterface";
 import { SearchContext } from "../../../context";
 import { fetchFeature, selectError, selectFeature } from "../featureSlice";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
@@ -27,7 +27,6 @@ const DetailPage = () => {
   const [mainTabSelected, setMainTabSelected] = useState<boolean>(true);
   const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const currentFeature: Feature = useSelector(selectFeature);
   const error = useSelector(selectError);

@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from "react";
+import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import { Form } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
-import { getFeature, updateFeature } from "../api/FeatureApi";
-import { Feature, FeatureUpdate } from "../api/FeatureInterface";
-import { useHistory, useParams } from "react-router-dom";
 import {
   Toolbar,
   ToolbarButtonBase,
@@ -17,10 +18,9 @@ import {
 } from "@jfront/ui-core";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
-import { useFormik } from "formik";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
+import { getFeature, updateFeature } from "../api/FeatureApi";
+import { Feature, FeatureUpdate } from "../api/FeatureInterface";
 
 const EditPage = () => {
   const history = useHistory();
