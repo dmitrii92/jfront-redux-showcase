@@ -17,7 +17,6 @@ import {
 } from "@jfront/ui-core";
 import { Grid } from "@jfront/ui-core";
 import { Panel } from "@jfront/ui-core";
-import { Tab, TabPanel } from "@jfront/ui-core";
 import { deleteFeature } from "../api/FeatureApi";
 import { SearchRequest } from "../../../app/common/types";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
@@ -66,9 +65,6 @@ const ListPage = () => {
   return (
     <Panel>
       <Panel.Header>
-        <TabPanel>
-          <Tab selected={true}>{t("feature.header")}</Tab>
-        </TabPanel>
         <Toolbar>
           <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
           <ToolbarButtonSave disabled={true} />

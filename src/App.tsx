@@ -24,23 +24,6 @@ const Loader = () => (
 function Main() {
   const { t, i18n } = useTranslation();
   const language = new URLSearchParams(window.location.search).get("locale");
-  const [searchId, setSearchId] = useState<string>("");
-  const [searchTemplate, setSearchTemplate] = useState<FeatureSearchTemplate>({});
-
-  const searchFeature: SearchContextInterface = {
-    getId(): string {
-      return searchId;
-    },
-    setId(searchId: string) {
-      setSearchId(searchId);
-    },
-    getTemplate(): FeatureSearchTemplate {
-      return searchTemplate;
-    },
-    setTemplate(template: FeatureSearchTemplate): void {
-      setSearchTemplate(template);
-    },
-  };
 
   useEffect(() => {
     if (language) {
@@ -49,45 +32,43 @@ function Main() {
   }, [language]);
 
   return (
-    <SearchContext.Provider value={searchFeature}>
-      <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
-        <AppTabPanel />
-        <Switch>
-          <Route path="/" exact>
-            <FeatureToolbar />
-            <SearchPage />
-          </Route>
-          <Route path="/create" exact>
-            <FeatureToolbar />
-            <CreatePage />
-          </Route>
-          <Route path="/:featureId/edit" exact>
-            <FeatureToolbar />
-            <EditPage />
-          </Route>
-          <Route path="/:featureId/detail">
-            <FeatureToolbar />
-            <DetailPage />
-          </Route>
-          <Route path="/list">
-            <FeatureToolbar />
-            <ListPage />
-          </Route>
-          <Route path="/:featureId/feature-process" exact>
-            <FeatureProcessToolbar />
-            <FeatureProcessListPage />
-          </Route>
-          <Route path="/:featureId/feature-process/:featureProcessId/detail">
-            <FeatureProcessToolbar />
-            <FeatureProcessDetailPage />
-          </Route>
-          <Route path="/:featureId/feature-process/create" exact>
-            <FeatureProcessToolbar />
-            <FeatureProcessCreatePage />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </SearchContext.Provider>
+    <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
+      <AppTabPanel />
+      <Switch>
+        <Route path="/" exact>
+          <FeatureToolbar />
+          <SearchPage />
+        </Route>
+        <Route path="/create" exact>
+          <FeatureToolbar />
+          <CreatePage />
+        </Route>
+        <Route path="/:featureId/edit" exact>
+          <FeatureToolbar />
+          <EditPage />
+        </Route>
+        <Route path="/:featureId/detail">
+          <FeatureToolbar />
+          <DetailPage />
+        </Route>
+        <Route path="/list">
+          <FeatureToolbar />
+          <ListPage />
+        </Route>
+        <Route path="/:featureId/feature-process" exact>
+          <FeatureProcessToolbar />
+          <FeatureProcessListPage />
+        </Route>
+        <Route path="/:featureId/feature-process/:featureProcessId/detail">
+          <FeatureProcessToolbar />
+          <FeatureProcessDetailPage />
+        </Route>
+        <Route path="/:featureId/feature-process/create" exact>
+          <FeatureProcessToolbar />
+          <FeatureProcessCreatePage />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

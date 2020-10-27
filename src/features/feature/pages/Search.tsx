@@ -20,7 +20,6 @@ import { DatePicker } from "@jfront/ui-core";
 import { CheckBoxGroup } from "@jfront/ui-core";
 import { CheckBox } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
-import { Tab, TabPanel } from "@jfront/ui-core";
 import { FeatureSearchTemplate } from "../api/FeatureInterface";
 import { SearchContext } from "../../../context";
 import { FeatureStatusOptions } from "../../feature-process/api/FeatureProcessInterface";
@@ -62,7 +61,7 @@ const SearchPage = () => {
   }, []);
 
   const formik = useFormik<FeatureSearchTemplate>({
-    initialValues: searchContext.getTemplate(),
+    initialValues: {},
     onSubmit: (values: FeatureSearchTemplate) => {
       onSubmit(values);
     },
@@ -70,9 +69,6 @@ const SearchPage = () => {
 
   return (
     <>
-      <TabPanel>
-        <Tab selected={true}>{t("feature.header")}</Tab>
-      </TabPanel>
       <Toolbar>
         <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
         <ToolbarButtonSave disabled={true} />
@@ -108,7 +104,7 @@ const SearchPage = () => {
           <Form.Label>{t("feature.fields.featureId")}:</Form.Label>
           <TextInput
             name="featureId"
-            value={formik.values.featureId}
+            value={formik.values?.featureId}
             onChange={formik.handleChange}
             type="number"
             autoComplete="off"
@@ -118,7 +114,7 @@ const SearchPage = () => {
           <Form.Label>{t("feature.fields.featureNameTemplate")}:</Form.Label>
           <TextInput
             name="featureNameTemplate"
-            value={formik.values.featureNameTemplate}
+            value={formik.values?.featureNameTemplate}
             onChange={formik.handleChange}
             autoComplete="off"
           />
@@ -127,7 +123,7 @@ const SearchPage = () => {
           <Form.Label>{t("feature.fields.featureNameEnTemplate")}:</Form.Label>
           <TextInput
             name="featureNameEnTemplate"
-            value={formik.values.featureNameEnTemplate}
+            value={formik.values?.featureNameEnTemplate}
             onChange={formik.handleChange}
             autoComplete="off"
           />
@@ -136,7 +132,7 @@ const SearchPage = () => {
           <Form.Label>{t("feature.fields.dateInsFrom")}</Form.Label>
           <DatePicker
             name="dateInsFrom"
-            selected={formik.values.dateInsFrom}
+            selected={formik.values?.dateInsFrom}
             onChange={(date) => {
               formik.setFieldValue("dateInsFrom", date);
             }}
@@ -146,7 +142,7 @@ const SearchPage = () => {
           <Form.Label>{t("feature.fields.dateInsTo")}</Form.Label>
           <DatePicker
             name="dateInsTo"
-            selected={formik.values.dateInsTo}
+            selected={formik.values?.dateInsTo}
             onChange={(date) => {
               formik.setFieldValue("dateInsTo", date);
             }}
@@ -156,7 +152,7 @@ const SearchPage = () => {
           <Form.Label>{t("feature.fields.statusCodeList")}</Form.Label>
           <CheckBoxGroup
             name="statusCodeList"
-            values={formik.values.statusCodeList ? formik.values.statusCodeList : []}
+            values={formik.values?.statusCodeList ? formik.values.statusCodeList : []}
             style={{ width: "142px" }}
             onChange={(name, newValue) => {
               formik.setFieldValue("statusCodeList", newValue);

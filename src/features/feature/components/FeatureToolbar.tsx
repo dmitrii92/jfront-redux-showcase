@@ -14,9 +14,15 @@ import {
   ToolbarSplitter,
 } from "@jfront/ui-core";
 import { selectFeature } from "../featureSlice";
-import { selectSearchResult } from "../featureSearchSlice";
-import { Feature } from "../api/FeatureInterface";
+import {
+  selectSearchPage,
+  selectSearchPageSize,
+  selectSearchResult,
+  selectSearchTemplate,
+} from "../featureSearchSlice";
+import { Feature, FeatureSearchTemplate } from "../api/FeatureInterface";
 import { selectState, Workstates } from "../../../app/WorkstateSlice";
+import { SearchRequest } from "../../../app/common/types";
 
 const FeatureToolbar = () => {
   const { t } = useTranslation();
@@ -24,12 +30,10 @@ const FeatureToolbar = () => {
   const state: Workstates = useSelector(selectState);
   const currentFeature: Feature = useSelector(selectFeature);
   const features: Array<Feature> = useSelector(selectSearchResult);
+  const searchPage: number = useSelector(selectSearchPage);
+  const searchPageSize: number = useSelector(selectSearchPageSize);
+  const searchTemplate: SearchRequest<FeatureSearchTemplate> = useSelector(selectSearchTemplate);
 
-  const [buttonCreateEnabled, setButtonCreateEnabled] = useState(false);
-  const [buttonEditEnabled, setButtonEditEnabled] = useState(false);
-  const [buttonSaveEnabled, setButtonSaveEnabled] = useState(false);
-  const [buttonDeleteEnabled, setButtonDeleteEnabled] = useState(false);
-  const [buttonViewEnabled, setButtonViewEnabled] = useState(false);
   const [buttonListEnabled, setButtonListEnabled] = useState(false);
   const [buttonFindEnabled, setButtonFindEnabled] = useState(false);
   const [buttonSearchEnabled, setButtonSearchEnabled] = useState(false);
@@ -37,31 +41,29 @@ const FeatureToolbar = () => {
   useEffect(() => {
     switch (state) {
       case Workstates.FeatureCreate:
-        setButtonCreateEnabled(true);
+        setButtonListEnabled(false);
+        setButtonFindEnabled(false);
+        setButtonSearchEnabled(false);
         break;
       case Workstates.FeatureDetail:
-        setButtonCreateEnabled(true);
+        setButtonListEnabled(false);
+        setButtonFindEnabled(false);
+        setButtonSearchEnabled(false);
         break;
       case Workstates.FeatureEdit:
-        setButtonCreateEnabled(true);
+        setButtonListEnabled(false);
+        setButtonFindEnabled(false);
+        setButtonSearchEnabled(false);
         break;
       case Workstates.FeatureList:
-        setButtonCreateEnabled(true);
+        setButtonListEnabled(false);
+        setButtonFindEnabled(false);
+        setButtonSearchEnabled(false);
         break;
       case Workstates.FeatureSearch:
-        setButtonCreateEnabled(true);
-        break;
-      case Workstates.FeatureProcessCreate:
-        setButtonCreateEnabled(false);
-        break;
-      case Workstates.FeatureProcessDetail:
-        setButtonCreateEnabled(false);
-        break;
-      case Workstates.FeatureProcessList:
-        setButtonCreateEnabled(false);
-        break;
-      case Workstates.FeatureProcessSearch:
-        setButtonCreateEnabled(false);
+        setButtonListEnabled(false);
+        setButtonFindEnabled(false);
+        setButtonSearchEnabled(true);
         break;
       default:
         break;
@@ -71,22 +73,29 @@ const FeatureToolbar = () => {
   return (
     <Toolbar>
       <ToolbarButtonCreate
-        disabled={!buttonCreateEnabled}
+        disabled={state === Workstates.FeatureCreate}
         onClick={() => history.push(`/create`)}
       />
-      <ToolbarButtonSave disabled={!buttonSaveEnabled} />
+      <ToolbarButtonSave
+        disabled={Workstates.FeatureCreate !== state && Workstates.FeatureEdit !== state}
+      />
       <ToolbarButtonEdit
         disabled={!currentFeature}
         onClick={() => history.push(`/${currentFeature?.featureId}/edit`)}
       />
-      <ToolbarButtonDelete disabled={!buttonDeleteEnabled} />
+      <ToolbarButtonDelete disabled={!currentFeature} />
       <ToolbarButtonView
-        disabled={!currentFeature}
+        disabled={!currentFeature || Workstates.FeatureDetail === state}
         onClick={() => history.push(`/${currentFeature?.featureId}/detail`)}
       />
       <ToolbarSplitter />
-      <ToolbarButtonBase disabled={!buttonFindEnabled}>{t("toolbar.list")}</ToolbarButtonBase>
-      <ToolbarButtonFind disabled={!buttonListEnabled} />
+      <ToolbarButtonBase
+        disabled={Workstates.FeatureList !== state && features ? features.length === 0 : true}
+        onClick={() => history.push(`/list/?pageSize=${searchPageSize}&page=${searchPage}`)}
+      >
+        {t("toolbar.list")}
+      </ToolbarButtonBase>
+      <ToolbarButtonFind disabled={!buttonFindEnabled} />
       <ToolbarButtonBase disabled={!buttonSearchEnabled}>{t("toolbar.find")}</ToolbarButtonBase>
     </Toolbar>
   );

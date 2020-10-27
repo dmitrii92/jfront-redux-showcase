@@ -16,7 +16,6 @@ import {
   ToolbarSplitter,
 } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
-import { Tab, TabPanel } from "@jfront/ui-core";
 import { FeatureCreate } from "../api/FeatureInterface";
 import { createFeature } from "../api/FeatureApi";
 import { SearchContext } from "../../../context";
@@ -51,9 +50,6 @@ const CreatePage = () => {
 
   return (
     <>
-      <TabPanel>
-        <Tab selected={true}>{t("feature.header")}</Tab>
-      </TabPanel>
       <Toolbar>
         <ToolbarButtonCreate disabled={true} />
         <ToolbarButtonSave

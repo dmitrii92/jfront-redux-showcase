@@ -14,7 +14,6 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { Tab, TabPanel } from "@jfront/ui-core";
 import { deleteFeature } from "../api/FeatureApi";
 import { Feature } from "../api/FeatureInterface";
 import { SearchContext } from "../../../context";
@@ -24,7 +23,6 @@ import { setState, Workstates } from "../../../app/WorkstateSlice";
 const DetailPage = () => {
   const history = useHistory();
   let { featureId } = useParams();
-  const [mainTabSelected, setMainTabSelected] = useState<boolean>(true);
   const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -38,25 +36,6 @@ const DetailPage = () => {
 
   return (
     <>
-      <TabPanel>
-        <Tab
-          selected={mainTabSelected}
-          onClick={() => {
-            setMainTabSelected(true);
-          }}
-        >
-          {t("feature.header")}
-        </Tab>
-        <Tab
-          selected={!mainTabSelected}
-          onClick={() => {
-            setMainTabSelected(false);
-            history.push(`/${featureId}/feature-process`);
-          }}
-        >
-          {t("feature-process.header")}
-        </Tab>
-      </TabPanel>
       <Toolbar>
         <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
         <ToolbarButtonSave disabled={true} />

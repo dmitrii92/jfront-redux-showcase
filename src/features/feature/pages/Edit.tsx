@@ -16,7 +16,6 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { Tab, TabPanel } from "@jfront/ui-core";
 import { SearchContext } from "../../../context";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
 import { getFeature, updateFeature } from "../api/FeatureApi";
@@ -61,9 +60,6 @@ const EditPage = () => {
 
   return (
     <>
-      <TabPanel>
-        <Tab selected={true}>{t("feature.header")}</Tab>
-      </TabPanel>
       <Toolbar>
         <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
         <ToolbarButtonSave

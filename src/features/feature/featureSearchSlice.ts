@@ -5,10 +5,12 @@ import { AppThunk, RootState } from "./../../app/store";
 import { SearchRequest } from "../../app/common/types";
 
 interface FeatureSearchState {
-  searchTemplate: FeatureSearchTemplate;
+  searchTemplate: SearchRequest<FeatureSearchTemplate>;
   error: string;
   isLoading: boolean;
   searchResult: Array<Feature>;
+  pageSize: number;
+  page: number;
 }
 
 const initialState: FeatureSearchState = {
@@ -16,6 +18,8 @@ const initialState: FeatureSearchState = {
   error: null,
   isLoading: false,
   searchResult: [],
+  pageSize: 25,
+  page: 1,
 };
 
 export const featureSearchSlice = createSlice({
@@ -23,7 +27,9 @@ export const featureSearchSlice = createSlice({
   initialState,
   reducers: {
     setSearchTemplate(state, action) {
-      state.searchTemplate = action.payload;
+      state.searchTemplate = action.payload.searchRequest;
+      state.searchTemplate = action.payload.pageSize;
+      state.searchTemplate = action.payload.page;
     },
     searchError(state, action) {
       state.error = action.payload;
@@ -49,6 +55,9 @@ export const { searchSuccess } = featureSearchSlice.actions;
 export const selectSearchResult = (state: RootState) => state.featureSearch.searchResult;
 export const selectError = (state: RootState) => state.featureSearch.error;
 export const selectIsLoading = (state: RootState) => state.featureSearch.isLoading;
+export const selectSearchTemplate = (state: RootState) => state.featureSearch.searchTemplate;
+export const selectSearchPageSize = (state: RootState) => state.featureSearch.pageSize;
+export const selectSearchPage = (state: RootState) => state.featureSearch.page;
 
 export const fetchSearchFeatures = (
   searchRequest: SearchRequest<FeatureSearchTemplate>,
@@ -63,6 +72,7 @@ export const fetchSearchFeatures = (
           if (searchId) {
             searchFeatures(searchId, pageSize, page).then((features) => {
               dispatch(searchSuccess(features));
+              dispatch(setSearchTemplate({ searchRequest, pageSize, page }));
               dispatch(isLoading(false));
             });
           }
