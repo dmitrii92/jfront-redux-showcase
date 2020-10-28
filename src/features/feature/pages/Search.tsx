@@ -26,7 +26,6 @@ const SearchPage = () => {
   const searchTemplate: string = useSelector(selectSearchTemplate);
 
   useEffect(() => {
-    console.log("submitSearch = ", selectSearch);
     if (selectSearch) {
       formRef.current?.dispatchEvent(new Event("submit"));
       dispatch(submitSearch(false));
@@ -34,7 +33,6 @@ const SearchPage = () => {
   }, [selectSearch]);
 
   const onSubmit = (data: FeatureSearchTemplate) => {
-    console.log(data);
     if (!data.featureId) {
       data.featureId = undefined;
     }

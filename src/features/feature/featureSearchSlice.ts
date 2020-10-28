@@ -41,8 +41,6 @@ export const featureSearchSlice = createSlice({
       state.isLoading = action.payload;
     },
     searchSuccess(state, action: PayloadAction<Array<Feature>>) {
-      console.log("searchSuccess: ");
-      console.log(action.payload);
       state.searchResult = action.payload;
     },
     submitSearch(state, action) {
