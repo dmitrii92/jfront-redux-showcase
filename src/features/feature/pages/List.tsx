@@ -1,25 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useLocation } from "react-router-dom";
-import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
-import { Feature, FeatureSearchTemplate } from "../api/FeatureInterface";
-import {
-  Toolbar,
-  ToolbarButtonBase,
-  ToolbarButtonCreate,
-  ToolbarButtonDelete,
-  ToolbarButtonEdit,
-  ToolbarButtonFind,
-  ToolbarButtonSave,
-  ToolbarButtonView,
-  ToolbarSplitter,
-} from "@jfront/ui-core";
+import { Feature } from "../api/FeatureInterface";
 import { Grid } from "@jfront/ui-core";
 import { Panel } from "@jfront/ui-core";
-import { deleteFeature } from "../api/FeatureApi";
-import { SearchRequest } from "../../../app/common/types";
-import { selectFeature, setCurrentFeature } from "../featureSlice";
+import { setCurrentFeature } from "../featureSlice";
 import { selectSearchResult, fetchSearchFeatures, selectIsLoading } from "../featureSearchSlice";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
 
@@ -35,25 +21,11 @@ const ListPage = () => {
   const page: number = parseInt(query.get("page") as string);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentFeature: Feature = useSelector(selectFeature);
   const features: Array<Feature> = useSelector(selectSearchResult);
   const isLoading = useSelector(selectIsLoading);
 
   const find = () => {
-    let searchTemplate = queryString.parse(location.search);
-    if (searchTemplate.page) {
-      delete searchTemplate.page;
-    }
-    if (searchTemplate.pageSize) {
-      delete searchTemplate.pageSize;
-    }
-
-    let searchRequest: SearchRequest<FeatureSearchTemplate> = {
-      template: searchTemplate,
-    };
-    console.log("find, searchRequest: ", searchRequest);
-
-    dispatch(fetchSearchFeatures(searchRequest, pageSize, page));
+    dispatch(fetchSearchFeatures(location.search, pageSize, page));
   };
 
   useEffect(() => {
@@ -63,34 +35,7 @@ const ListPage = () => {
 
   return (
     <Panel>
-      <Panel.Header>
-        <Toolbar>
-          <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
-          <ToolbarButtonSave disabled={true} />
-          <ToolbarButtonEdit
-            disabled={!currentFeature}
-            onClick={() => history.push(`/${currentFeature?.featureId}/edit`)}
-          />
-          <ToolbarButtonDelete
-            disabled={!currentFeature}
-            onClick={() => {
-              if (currentFeature) {
-                deleteFeature(currentFeature.featureId.toString()).then(() => {
-                  find();
-                });
-              }
-            }}
-          />
-          <ToolbarButtonView
-            disabled={!currentFeature}
-            onClick={() => history.push(`/${currentFeature?.featureId}/detail`)}
-          />
-          <ToolbarSplitter />
-          <ToolbarButtonBase disabled={true}>{t("toolbar.list")}</ToolbarButtonBase>
-          <ToolbarButtonFind onClick={() => history.push(`/`)} />
-          <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
-        </Toolbar>
-      </Panel.Header>
+      <Panel.Header></Panel.Header>
       <Panel.Content>
         {isLoading ? (
           <div style={{ textAlign: "center" }}>Loading...</div>

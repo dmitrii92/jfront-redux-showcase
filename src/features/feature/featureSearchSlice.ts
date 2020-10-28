@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import queryString from "query-string";
 import { Feature, FeatureSearchTemplate } from "./api/FeatureInterface";
 import { getResultSetSize, postSearchRequest, searchFeatures } from "./api/FeatureSearchApi";
 import { AppThunk, RootState } from "./../../app/store";
 import { SearchRequest } from "../../app/common/types";
 
 interface FeatureSearchState {
-  searchTemplate: SearchRequest<FeatureSearchTemplate>;
-  // searchTemplate: SearchRequest<FeatureSearchTemplate>;
+  searchTemplate: string;
   error: string;
   isLoading: boolean;
   searchResult: Array<Feature>;
@@ -30,10 +30,7 @@ export const featureSearchSlice = createSlice({
   initialState,
   reducers: {
     setSearchTemplate(state, action) {
-      console.log("setSearchTemplate: ", action);
-      // state.searchTemplate = action.payload;
-      // state.pageSize = action.payload.pageSize;
-      // state.page = action.payload.page;
+      state.searchTemplate = action.payload;
     },
     searchError(state, action) {
       state.error = action.payload;
@@ -69,21 +66,30 @@ export const selectSearchPage = (state: RootState) => state.featureSearch.page;
 export const selectSearchSubmit = (state: RootState) => state.featureSearch.submit;
 
 export const fetchSearchFeatures = (
-  searchRequest: SearchRequest<FeatureSearchTemplate>,
+  searchRequestString: string,
   pageSize,
   page
 ): AppThunk => async (dispatch) => {
   try {
+    let searchTemplate = queryString.parse(searchRequestString);
+    if (searchTemplate.page) {
+      delete searchTemplate.page;
+    }
+    if (searchTemplate.pageSize) {
+      delete searchTemplate.pageSize;
+    }
+    let searchRequest: SearchRequest<FeatureSearchTemplate> = {
+      template: searchTemplate,
+    };
+
     dispatch(isLoading(true));
-    console.log("searchRequest: ", searchRequest);
     postSearchRequest(searchRequest).then((searchId) => {
       getResultSetSize(searchId).then((resultSize) => {
         if (resultSize > 0) {
           if (searchId) {
             searchFeatures(searchId, pageSize, page).then((features) => {
               dispatch(searchSuccess(features));
-              // console.log("searchRequest2: ", searchRequest);
-              // dispatch(setSearchTemplate(searchRequest));
+              dispatch(setSearchTemplate(searchRequestString));
               dispatch(isLoading(false));
             });
           }

@@ -1,50 +1,35 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Toolbar,
-  ToolbarButtonBase,
-  ToolbarButtonCreate,
-  ToolbarButtonDelete,
-  ToolbarButtonEdit,
-  ToolbarButtonFind,
-  ToolbarButtonSave,
-  ToolbarButtonView,
-  ToolbarSplitter,
-} from "@jfront/ui-core";
 import { Form } from "@jfront/ui-core";
 import { DatePicker } from "@jfront/ui-core";
 import { CheckBoxGroup } from "@jfront/ui-core";
 import { CheckBox } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
 import { FeatureSearchTemplate } from "../api/FeatureInterface";
-import { SearchContext } from "../../../context";
 import { FeatureStatusOptions } from "../../feature-process/api/FeatureProcessInterface";
 import { getFeatureStatusOptions } from "../../feature-process/api/FeatureProcessApi";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
-import { selectSearchSubmit, submitSearch } from "../featureSearchSlice";
+import { selectSearchSubmit, selectSearchTemplate, submitSearch } from "../featureSearchSlice";
 
 const SearchPage = () => {
   let formRef = useRef(null) as any;
   const { t } = useTranslation();
   const history = useHistory();
-  const searchContext = useContext(SearchContext);
   let [statusOptions, setStatusOptions] = useState<FeatureStatusOptions[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
   const selectSearch = useSelector(selectSearchSubmit);
+  const searchTemplate: string = useSelector(selectSearchTemplate);
+
   useEffect(() => {
     console.log("submitSearch = ", selectSearch);
     if (selectSearch) {
       formRef.current?.dispatchEvent(new Event("submit"));
       dispatch(submitSearch(false));
-      // let button = document.getElementById("search-submit");
-      // if (button) {
-      //   button.click();
-      // }
     }
   }, [selectSearch]);
 
@@ -76,7 +61,7 @@ const SearchPage = () => {
   }, []);
 
   const formik = useFormik<FeatureSearchTemplate>({
-    initialValues: {},
+    initialValues: queryString.parse(searchTemplate),
     onSubmit: (values: FeatureSearchTemplate) => {
       onSubmit(values);
     },
@@ -84,36 +69,6 @@ const SearchPage = () => {
 
   return (
     <>
-      <Toolbar>
-        <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
-        <ToolbarButtonSave disabled={true} />
-        <ToolbarButtonEdit disabled={true} />
-        <ToolbarButtonDelete disabled={true} />
-        <ToolbarButtonView disabled={true} />
-        <ToolbarSplitter />
-        <ToolbarButtonBase //TODO: think about code bellow
-          disabled={!searchContext?.getId()}
-          onClick={() => {
-            let searchId = searchContext?.getId();
-            if (searchId) {
-              history.push(`/list/${searchId}/?pageSize=25&page=1`);
-            }
-          }}
-        >
-          {t("toolbar.list")}
-        </ToolbarButtonBase>
-        <ToolbarButtonFind disabled={true} />
-        <ToolbarButtonBase
-          onClick={() => {
-            let button = document.getElementById("search-submit");
-            if (button) {
-              button.click();
-            }
-          }}
-        >
-          {t("toolbar.find")}
-        </ToolbarButtonBase>
-      </Toolbar>
       <Form onSubmit={formik.handleSubmit} ref={formRef}>
         <Form.Field style={{ display: "inline-block" }}>
           <Form.Label>{t("feature.fields.featureId")}:</Form.Label>

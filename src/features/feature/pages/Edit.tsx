@@ -1,22 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { Form } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
-import {
-  Toolbar,
-  ToolbarButtonBase,
-  ToolbarButtonCreate,
-  ToolbarButtonDelete,
-  ToolbarButtonEdit,
-  ToolbarButtonFind,
-  ToolbarButtonSave,
-  ToolbarButtonView,
-  ToolbarSplitter,
-} from "@jfront/ui-core";
-import { SearchContext } from "../../../context";
 import { selectFeature, setCurrentFeature } from "../featureSlice";
 import { getFeature, updateFeature } from "../api/FeatureApi";
 import { Feature, FeatureUpdate } from "../api/FeatureInterface";
@@ -25,7 +13,6 @@ import { setState, Workstates } from "../../../app/WorkstateSlice";
 const EditPage = () => {
   const history = useHistory();
   let { featureId } = useParams();
-  const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -60,31 +47,6 @@ const EditPage = () => {
 
   return (
     <>
-      <Toolbar>
-        <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
-        <ToolbarButtonSave
-          onClick={() => {
-            let button = document.getElementById("edit-submit");
-            if (button) {
-              button.click();
-            }
-          }}
-        />
-        <ToolbarButtonEdit disabled={true} />
-        <ToolbarButtonDelete />
-        <ToolbarButtonView onClick={() => history.push(`/${featureId}/detail`)} />
-        <ToolbarSplitter />
-        <ToolbarButtonBase
-          onClick={() => {
-            let searchId = searchContext?.getId();
-            history.push(`/list/${searchId}/?pageSize=25&page=1`);
-          }}
-        >
-          {t("toolbar.list")}
-        </ToolbarButtonBase>
-        <ToolbarButtonFind onClick={() => history.push(`/`)} />
-        <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
-      </Toolbar>
       <Form id="edit-form" onSubmit={formik.handleSubmit}>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureId")}:</Form.Label>

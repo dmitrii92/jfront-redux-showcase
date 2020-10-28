@@ -1,29 +1,16 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Form } from "@jfront/ui-core";
-import {
-  Toolbar,
-  ToolbarButtonBase,
-  ToolbarButtonCreate,
-  ToolbarButtonDelete,
-  ToolbarButtonEdit,
-  ToolbarButtonFind,
-  ToolbarButtonSave,
-  ToolbarButtonView,
-  ToolbarSplitter,
-} from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
 import { FeatureCreate } from "../api/FeatureInterface";
 import { createFeature } from "../api/FeatureApi";
-import { SearchContext } from "../../../context";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const CreatePage = () => {
   const history = useHistory();
-  const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -50,33 +37,6 @@ const CreatePage = () => {
 
   return (
     <>
-      <Toolbar>
-        <ToolbarButtonCreate disabled={true} />
-        <ToolbarButtonSave
-          onClick={() => {
-            let button = document.getElementById("create-submit");
-            if (button) {
-              button.click();
-            }
-          }}
-        />
-        <ToolbarButtonEdit disabled={true} />
-        <ToolbarButtonDelete disabled={true} />
-        <ToolbarButtonView disabled={true} />
-        <ToolbarSplitter />
-        <ToolbarButtonBase
-          onClick={() => {
-            let searchId = searchContext?.getId();
-            if (searchId) {
-              history.push(`/list/${searchId}/?pageSize=25&page=1`);
-            }
-          }}
-        >
-          {t("toolbar.list")}
-        </ToolbarButtonBase>
-        <ToolbarButtonFind onClick={() => history.push(`/`)} />
-        <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
-      </Toolbar>
       <Form id="create-form" onSubmit={formik.handleSubmit}>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureName")}</Form.Label>

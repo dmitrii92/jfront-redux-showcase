@@ -1,29 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Form } from "@jfront/ui-core";
-import {
-  Toolbar,
-  ToolbarButtonBase,
-  ToolbarButtonCreate,
-  ToolbarButtonDelete,
-  ToolbarButtonEdit,
-  ToolbarButtonFind,
-  ToolbarButtonSave,
-  ToolbarButtonView,
-  ToolbarSplitter,
-} from "@jfront/ui-core";
-import { deleteFeature } from "../api/FeatureApi";
 import { Feature } from "../api/FeatureInterface";
-import { SearchContext } from "../../../context";
 import { fetchFeature, selectError, selectFeature } from "../featureSlice";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const DetailPage = () => {
-  const history = useHistory();
   let { featureId } = useParams();
-  const searchContext = useContext(SearchContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentFeature: Feature = useSelector(selectFeature);
@@ -36,41 +21,6 @@ const DetailPage = () => {
 
   return (
     <>
-      <Toolbar>
-        <ToolbarButtonCreate onClick={() => history.push(`/create`)} />
-        <ToolbarButtonSave disabled={true} />
-        <ToolbarButtonEdit onClick={() => history.push(`/${featureId}/edit`)} />
-        <ToolbarButtonDelete
-          onClick={() => {
-            if (featureId) {
-              deleteFeature(featureId).then(() => {
-                let searchId = searchContext?.getId();
-                if (searchId) {
-                  history.push(`/list/${searchId}/?pageSize=25&page=1`);
-                } else {
-                  history.push(`/`);
-                }
-              });
-            }
-          }}
-        />
-        <ToolbarButtonView disabled={true} />
-        <ToolbarSplitter />
-        <ToolbarButtonBase
-          onClick={() => {
-            let searchId = searchContext?.getId();
-            if (searchId) {
-              history.push(`/list/${searchId}/?pageSize=25&page=1`);
-            } else {
-              history.push("/");
-            }
-          }}
-        >
-          {t("toolbar.list")}
-        </ToolbarButtonBase>
-        <ToolbarButtonFind onClick={() => history.push(`/`)} />
-        <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
-      </Toolbar>
       {error ? <div>{error}</div> : null}
       <Form>
         <Form.Field>
