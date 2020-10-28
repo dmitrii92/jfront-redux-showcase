@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -37,42 +37,6 @@ const FeatureToolbar = () => {
   const searchTemplate: SearchRequest<FeatureSearchTemplate> = useSelector(selectSearchTemplate);
   // const submitSearch = useSelector(selectSearchSubmit);
 
-  const [buttonListEnabled, setButtonListEnabled] = useState(false);
-  const [buttonFindEnabled, setButtonFindEnabled] = useState(false);
-  const [buttonSearchEnabled, setButtonSearchEnabled] = useState(false);
-
-  useEffect(() => {
-    switch (state) {
-      case Workstates.FeatureCreate:
-        setButtonListEnabled(false);
-        setButtonFindEnabled(false);
-        setButtonSearchEnabled(false);
-        break;
-      case Workstates.FeatureDetail:
-        setButtonListEnabled(false);
-        setButtonFindEnabled(false);
-        setButtonSearchEnabled(false);
-        break;
-      case Workstates.FeatureEdit:
-        setButtonListEnabled(false);
-        setButtonFindEnabled(false);
-        setButtonSearchEnabled(false);
-        break;
-      case Workstates.FeatureList:
-        setButtonListEnabled(false);
-        setButtonFindEnabled(false);
-        setButtonSearchEnabled(false);
-        break;
-      case Workstates.FeatureSearch:
-        setButtonListEnabled(false);
-        setButtonFindEnabled(false);
-        setButtonSearchEnabled(true);
-        break;
-      default:
-        break;
-    }
-  }, [state]);
-
   return (
     <Toolbar>
       <ToolbarButtonCreate
@@ -103,7 +67,7 @@ const FeatureToolbar = () => {
         onClick={() => history.push(`/`)}
       />
       <ToolbarButtonBase
-        disabled={!buttonSearchEnabled}
+        disabled={state !== Workstates.FeatureSearch}
         type="submit"
         onClick={() => {
           dispatch(submitSearch(true));
