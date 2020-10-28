@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
@@ -25,16 +25,31 @@ import { SearchContext } from "../../../context";
 import { FeatureStatusOptions } from "../../feature-process/api/FeatureProcessInterface";
 import { getFeatureStatusOptions } from "../../feature-process/api/FeatureProcessApi";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
+import { selectSearchSubmit, submitSearch } from "../featureSearchSlice";
 
 const SearchPage = () => {
+  let formRef = useRef(null) as any;
   const { t } = useTranslation();
   const history = useHistory();
   const searchContext = useContext(SearchContext);
   let [statusOptions, setStatusOptions] = useState<FeatureStatusOptions[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
+  const selectSearch = useSelector(selectSearchSubmit);
+  useEffect(() => {
+    console.log("submitSearch = ", selectSearch);
+    if (selectSearch) {
+      formRef.current?.dispatchEvent(new Event("submit"));
+      dispatch(submitSearch(false));
+      // let button = document.getElementById("search-submit");
+      // if (button) {
+      //   button.click();
+      // }
+    }
+  }, [selectSearch]);
 
   const onSubmit = (data: FeatureSearchTemplate) => {
+    console.log(data);
     if (!data.featureId) {
       data.featureId = undefined;
     }
@@ -99,7 +114,7 @@ const SearchPage = () => {
           {t("toolbar.find")}
         </ToolbarButtonBase>
       </Toolbar>
-      <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit} ref={formRef}>
         <Form.Field style={{ display: "inline-block" }}>
           <Form.Label>{t("feature.fields.featureId")}:</Form.Label>
           <TextInput

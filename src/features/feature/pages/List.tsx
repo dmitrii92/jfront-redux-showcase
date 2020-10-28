@@ -34,26 +34,25 @@ const ListPage = () => {
   const pageSize: number = parseInt(query.get("pageSize") as string);
   const page: number = parseInt(query.get("page") as string);
   const { t } = useTranslation();
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const dispatch = useDispatch();
   const currentFeature: Feature = useSelector(selectFeature);
   const features: Array<Feature> = useSelector(selectSearchResult);
   const isLoading = useSelector(selectIsLoading);
+
   const find = () => {
     let searchTemplate = queryString.parse(location.search);
     if (searchTemplate.page) {
-      searchTemplate.page = undefined;
+      delete searchTemplate.page;
     }
     if (searchTemplate.pageSize) {
-      searchTemplate.pageSize = undefined;
+      delete searchTemplate.pageSize;
     }
 
     let searchRequest: SearchRequest<FeatureSearchTemplate> = {
       template: searchTemplate,
     };
+    console.log("find, searchRequest: ", searchRequest);
 
-    console.log(`page = ${page}, pageSize = ${pageSize}`);
     dispatch(fetchSearchFeatures(searchRequest, pageSize, page));
   };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import {
@@ -19,6 +19,7 @@ import {
   selectSearchPageSize,
   selectSearchResult,
   selectSearchTemplate,
+  submitSearch,
 } from "../featureSearchSlice";
 import { Feature, FeatureSearchTemplate } from "../api/FeatureInterface";
 import { selectState, Workstates } from "../../../app/WorkstateSlice";
@@ -27,12 +28,14 @@ import { SearchRequest } from "../../../app/common/types";
 const FeatureToolbar = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
   const state: Workstates = useSelector(selectState);
   const currentFeature: Feature = useSelector(selectFeature);
   const features: Array<Feature> = useSelector(selectSearchResult);
   const searchPage: number = useSelector(selectSearchPage);
   const searchPageSize: number = useSelector(selectSearchPageSize);
   const searchTemplate: SearchRequest<FeatureSearchTemplate> = useSelector(selectSearchTemplate);
+  // const submitSearch = useSelector(selectSearchSubmit);
 
   const [buttonListEnabled, setButtonListEnabled] = useState(false);
   const [buttonFindEnabled, setButtonFindEnabled] = useState(false);
@@ -95,8 +98,19 @@ const FeatureToolbar = () => {
       >
         {t("toolbar.list")}
       </ToolbarButtonBase>
-      <ToolbarButtonFind disabled={!buttonFindEnabled} />
-      <ToolbarButtonBase disabled={!buttonSearchEnabled}>{t("toolbar.find")}</ToolbarButtonBase>
+      <ToolbarButtonFind
+        disabled={state === Workstates.FeatureSearch}
+        onClick={() => history.push(`/`)}
+      />
+      <ToolbarButtonBase
+        disabled={!buttonSearchEnabled}
+        type="submit"
+        onClick={() => {
+          dispatch(submitSearch(true));
+        }}
+      >
+        {t("toolbar.find")}
+      </ToolbarButtonBase>
     </Toolbar>
   );
 };

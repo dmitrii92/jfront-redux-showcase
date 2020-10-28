@@ -6,11 +6,13 @@ import { SearchRequest } from "../../app/common/types";
 
 interface FeatureSearchState {
   searchTemplate: SearchRequest<FeatureSearchTemplate>;
+  // searchTemplate: SearchRequest<FeatureSearchTemplate>;
   error: string;
   isLoading: boolean;
   searchResult: Array<Feature>;
   pageSize: number;
   page: number;
+  submit: boolean;
 }
 
 const initialState: FeatureSearchState = {
@@ -20,6 +22,7 @@ const initialState: FeatureSearchState = {
   searchResult: [],
   pageSize: 25,
   page: 1,
+  submit: false,
 };
 
 export const featureSearchSlice = createSlice({
@@ -27,9 +30,10 @@ export const featureSearchSlice = createSlice({
   initialState,
   reducers: {
     setSearchTemplate(state, action) {
-      state.searchTemplate = action.payload.searchRequest;
-      state.searchTemplate = action.payload.pageSize;
-      state.searchTemplate = action.payload.page;
+      console.log("setSearchTemplate: ", action);
+      // state.searchTemplate = action.payload;
+      // state.pageSize = action.payload.pageSize;
+      // state.page = action.payload.page;
     },
     searchError(state, action) {
       state.error = action.payload;
@@ -44,6 +48,9 @@ export const featureSearchSlice = createSlice({
       console.log(action.payload);
       state.searchResult = action.payload;
     },
+    submitSearch(state, action) {
+      state.submit = action.payload;
+    },
   },
 });
 
@@ -51,6 +58,7 @@ export const { setSearchTemplate } = featureSearchSlice.actions;
 export const { searchError } = featureSearchSlice.actions;
 export const { isLoading } = featureSearchSlice.actions;
 export const { searchSuccess } = featureSearchSlice.actions;
+export const { submitSearch } = featureSearchSlice.actions;
 
 export const selectSearchResult = (state: RootState) => state.featureSearch.searchResult;
 export const selectError = (state: RootState) => state.featureSearch.error;
@@ -58,6 +66,7 @@ export const selectIsLoading = (state: RootState) => state.featureSearch.isLoadi
 export const selectSearchTemplate = (state: RootState) => state.featureSearch.searchTemplate;
 export const selectSearchPageSize = (state: RootState) => state.featureSearch.pageSize;
 export const selectSearchPage = (state: RootState) => state.featureSearch.page;
+export const selectSearchSubmit = (state: RootState) => state.featureSearch.submit;
 
 export const fetchSearchFeatures = (
   searchRequest: SearchRequest<FeatureSearchTemplate>,
@@ -66,13 +75,15 @@ export const fetchSearchFeatures = (
 ): AppThunk => async (dispatch) => {
   try {
     dispatch(isLoading(true));
+    console.log("searchRequest: ", searchRequest);
     postSearchRequest(searchRequest).then((searchId) => {
       getResultSetSize(searchId).then((resultSize) => {
         if (resultSize > 0) {
           if (searchId) {
             searchFeatures(searchId, pageSize, page).then((features) => {
               dispatch(searchSuccess(features));
-              dispatch(setSearchTemplate({ searchRequest, pageSize, page }));
+              // console.log("searchRequest2: ", searchRequest);
+              // dispatch(setSearchTemplate(searchRequest));
               dispatch(isLoading(false));
             });
           }
