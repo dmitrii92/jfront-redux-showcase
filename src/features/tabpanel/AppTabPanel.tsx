@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Tab, TabPanel } from "@jfront/ui-core";
 import { selectState, Workstates } from "../../app/WorkstateSlice";
@@ -18,39 +18,22 @@ const AppTabPanel = () => {
   useEffect(() => {
     switch (state) {
       case Workstates.FeatureCreate:
-        setMainTabSelected(true);
-        setFeatureProcessTabVisible(false);
-        break;
-      case Workstates.FeatureDetail:
-        setMainTabSelected(true);
-        setFeatureProcessTabVisible(true);
-        break;
-      case Workstates.FeatureEdit:
-        setMainTabSelected(true);
-        setFeatureProcessTabVisible(true);
-        break;
       case Workstates.FeatureList:
-        setMainTabSelected(true);
-        setFeatureProcessTabVisible(false);
-        break;
       case Workstates.FeatureSearch:
         setMainTabSelected(true);
         setFeatureProcessTabVisible(false);
         break;
+      case Workstates.FeatureDetail:
+      case Workstates.FeatureEdit:
+        setMainTabSelected(true);
+        setFeatureProcessTabVisible(true);
+        break;
       case Workstates.FeatureProcessCreate:
-        setMainTabSelected(false);
-        setFeatureProcessTabVisible(true);
-        break;
       case Workstates.FeatureProcessDetail:
-        setMainTabSelected(false);
-        setFeatureProcessTabVisible(true);
-        break;
       case Workstates.FeatureProcessList:
-        setMainTabSelected(false);
-        setFeatureProcessTabVisible(true);
-        break;
       case Workstates.FeatureProcessSearch:
         setMainTabSelected(false);
+        setFeatureProcessTabVisible(true);
         break;
       default:
         break;
