@@ -6,23 +6,15 @@ import {
 } from "./FeatureProcessInterface";
 
 const API_URL = "https://jepria-spring-feature.herokuapp.com";
-const USER = "user";
-const PASSWORD = "123";
 const withCredentials = false;
 
-export const findFeatureProcess = (
-  featureId: number
-): Promise<FeatureProcess[]> => {
+export const findFeatureProcess = (featureId: number): Promise<FeatureProcess[]> => {
   const url = `${API_URL}/feature/${featureId}/feature-process`;
   axios.defaults.withCredentials = withCredentials;
   return axios
-    .get(
-      url
-      // {auth: {username: `${USER}`, password: `${PASSWORD}`}}
-    )
+    .get(url)
     .then((response) => response.data)
     .catch((reason) => {
-      // console.log(reason);
       return Promise.reject(reason);
     });
 };
@@ -37,7 +29,6 @@ export const createFeatureProcess = (
   return new Promise<FeatureProcess>((resolve, reject) => {
     axios
       .post(url, featureProcessCreate, {
-        // auth: {username: `${USER}`, password: `${PASSWORD}`},
         headers: {
           Accept: "application/json;charset=utf-8",
           "Content-Type": "application/json;charset=utf-8",
@@ -46,10 +37,8 @@ export const createFeatureProcess = (
       .then((response) => {
         if (response.status === 201) {
           let location: string = response.headers["location"];
-          // console.log("location" + location);
           axios
             .get(location, {
-              // auth: {username: `${USER}`, password: `${PASSWORD}`},
               headers: {
                 Accept: "application/json;charset=utf-8",
                 "Content-Type": "application/json;charset=utf-8",
@@ -80,7 +69,6 @@ export const getFeatureProcess = (
 
   return axios
     .get(url, {
-      // auth: {username: `${USER}`, password: `${PASSWORD}`},
       headers: {
         Accept: "application/json;charset=utf-8",
         "Content-Type": "application/json;charset=utf-8",
@@ -88,7 +76,6 @@ export const getFeatureProcess = (
     })
     .then((response) => response.data)
     .catch((reason) => {
-      // console.log(reason);
       return Promise.reject(reason);
     });
 };
@@ -103,7 +90,6 @@ export const deleteFeatureProcess = (
   return new Promise<void>((resolve, reject) => {
     axios
       .delete(url, {
-        // auth: {username: `${USER}`, password: `${PASSWORD}`},
         headers: {
           Accept: "application/json;charset=utf-8",
           "Content-Type": "application/json;charset=utf-8",
@@ -133,7 +119,6 @@ export const getFeatureStatusOptions = (): Promise<FeatureStatusOptions[]> => {
     })
     .then((response) => response.data)
     .catch((reason) => {
-      // console.log(reason);
       return Promise.reject(reason);
     });
 };
