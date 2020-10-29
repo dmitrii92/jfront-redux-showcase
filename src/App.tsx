@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import DetailPage from "./features/feature/pages/Detail";
@@ -9,8 +9,6 @@ import EditPage from "./features/feature/pages/Edit";
 import FeatureProcessListPage from "./features/feature-process/pages/List";
 import FeatureProcessDetailPage from "./features/feature-process/pages/Detail";
 import FeatureProcessCreatePage from "./features/feature-process/pages/Create";
-import { FeatureSearchTemplate } from "./features/feature/api/FeatureInterface";
-import { SearchContext, SearchContextInterface } from "./context";
 import AppTabPanel from "./features/tabpanel/AppTabPanel";
 import FeatureToolbar from "./features/feature/components/FeatureToolbar";
 import FeatureProcessToolbar from "./features/feature-process/components/FeatureProcessToolbar";
