@@ -2,7 +2,7 @@ import axios from "axios";
 import { Feature, FeatureCreate, FeatureSearchTemplate, FeatureUpdate } from "./FeatureInterface";
 import { SearchRequest } from "../../../app/common/types";
 
-const API_URL = "https://jepria-spring-feature.herokuapp.com";
+const API_URL = process.env.REACT_APP_API_URL;
 const withCredentials = false;
 
 export const getFeature = (id?: string): Promise<Feature> => {

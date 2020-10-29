@@ -5,7 +5,7 @@ import {
   FeatureStatusOptions,
 } from "./FeatureProcessInterface";
 
-const API_URL = "https://jepria-spring-feature.herokuapp.com";
+const API_URL = process.env.REACT_APP_API_URL;
 const withCredentials = false;
 
 export const findFeatureProcess = (featureId: number): Promise<FeatureProcess[]> => {
