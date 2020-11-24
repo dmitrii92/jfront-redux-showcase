@@ -13,7 +13,7 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { selectFeature, submitSaveOnCreate, submitSaveOnEdit } from "../featureSlice";
+import { selectFeature, submitSaveOnCreate, submitSaveOnEditFeature } from "../featureSlice";
 import {
   selectSearchPage,
   selectSearchPageSize,
@@ -48,7 +48,7 @@ const FeatureToolbar = () => {
             dispatch(submitSaveOnCreate());
           } else if (Workstates.FeatureEdit == state) {
             console.log("submitSaveOnEdit");
-            dispatch(submitSaveOnEdit());
+            dispatch(submitSaveOnEditFeature());
           }
         }}
       />

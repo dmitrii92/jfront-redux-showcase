@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
-import { Tab, TabPanel } from "@jfront/ui-core";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Toolbar,
-  ToolbarButtonBase,
-  ToolbarButtonCreate,
-  ToolbarButtonDelete,
-  ToolbarButtonEdit,
-  ToolbarButtonFind,
-  ToolbarButtonSave,
-  ToolbarButtonView,
-  ToolbarSplitter,
-} from "@jfront/ui-core";
-import { ComboBox, ComboBoxItem } from "@jfront/ui-core";
 import { Form } from "@jfront/ui-core";
 import { FeatureProcessCreate, FeatureStatusOptions } from "../api/FeatureProcessInterface";
 import { createFeatureProcess, getFeatureStatusOptions } from "../api/FeatureProcessApi";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
+import {
+  selectSaveOnCreateFeatureProcess,
+  submitSavedOnCreateFeatureProcess,
+} from "../featureProcessSlice";
 
 const FeatureProcessCreatePage = () => {
+  let formRef = useRef(null) as any;
   const { t } = useTranslation();
   const history = useHistory();
   let { featureId } = useParams();
-  const mainTabSelected = false;
   let [statusOptions, setStatusOptions] = useState<FeatureStatusOptions[]>();
   const dispatch = useDispatch();
+  const onSave = useSelector(selectSaveOnCreateFeatureProcess);
+
+  useEffect(() => {
+    if (onSave) {
+      dispatch(submitSavedOnCreateFeatureProcess);
+      formRef.current?.dispatchEvent(new Event("submit"));
+    }
+  }, [onSave]);
 
   const onSubmit = (data: FeatureProcessCreate) => {
     if (featureId) {
@@ -38,10 +37,10 @@ const FeatureProcessCreatePage = () => {
   };
 
   useEffect(() => {
+    dispatch(setState(Workstates.FeatureProcessCreate));
     getFeatureStatusOptions().then((options) => {
       setStatusOptions(options);
     });
-    dispatch(setState(Workstates.FeatureProcessCreate));
   }, []);
 
   const formik = useFormik<FeatureProcessCreate>({
@@ -55,7 +54,7 @@ const FeatureProcessCreatePage = () => {
 
   return (
     <>
-      <TabPanel>
+      {/* <TabPanel>
         <Tab
           selected={mainTabSelected}
           onClick={() => {
@@ -83,8 +82,8 @@ const FeatureProcessCreatePage = () => {
         <ToolbarButtonBase onClick={() => history.goBack()}>{t("toolbar.list")}</ToolbarButtonBase>
         <ToolbarButtonFind onClick={() => history.push(`/`)} />
         <ToolbarButtonBase disabled={true}>{t("toolbar.find")}</ToolbarButtonBase>
-      </Toolbar>
-      <Form onSubmit={formik.handleSubmit}>
+      </Toolbar> */}
+      <Form onSubmit={formik.handleSubmit} ref={formRef}>
         <Form.Field>
           <Form.Label>{t("feature-process.fields.featureStatusCode")}</Form.Label>
           <select

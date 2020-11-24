@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
@@ -11,6 +11,7 @@ import { setState, Workstates } from "../../../app/WorkstateSlice";
 import { featureCrudApi } from "../api/FeatureCrudApi";
 
 const CreatePage = () => {
+  let formRef = useRef(null) as any;
   const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const CreatePage = () => {
 
   return (
     <>
-      <Form id="create-form" onSubmit={formik.handleSubmit}>
+      <Form id="create-form" onSubmit={formik.handleSubmit} ref={formRef}>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureName")}</Form.Label>
           <TextInput

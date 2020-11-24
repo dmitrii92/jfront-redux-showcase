@@ -9,7 +9,7 @@ import {
   selectFeature,
   selectSaveOnEditFeature,
   setCurrentFeature,
-  submitSavedOnEdit,
+  submitSavedOnEditFeature,
 } from "../featureSlice";
 import { getFeature, updateFeature } from "../api/FeatureApi";
 import { Feature, FeatureUpdate } from "../api/FeatureInterface";
@@ -27,7 +27,7 @@ const EditPage = () => {
 
   useEffect(() => {
     if (onSaveFeature) {
-      dispatch(submitSavedOnEdit);
+      dispatch(submitSavedOnEditFeature);
       formRef.current?.dispatchEvent(new Event("submit"));
     }
   }, [onSaveFeature]);

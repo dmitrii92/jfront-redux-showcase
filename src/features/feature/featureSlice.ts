@@ -81,11 +81,11 @@ export const submitSavedOnCreate = (): AppThunk => async (dispatch) => {
   dispatch(setCreateFeature(false));
 };
 
-export const submitSaveOnEdit = (): AppThunk => async (dispatch) => {
+export const submitSaveOnEditFeature = (): AppThunk => async (dispatch) => {
   dispatch(setSaveOnEditFeature(true));
 };
 
-export const submitSavedOnEdit = (): AppThunk => async (dispatch) => {
+export const submitSavedOnEditFeature = (): AppThunk => async (dispatch) => {
   dispatch(setSaveOnEditFeature(false));
 };
 
