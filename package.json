@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://dmitrii92.github.io/jfront-showcase",
   "dependencies": {
+    "@jfront/core-rest": "^0.1.0-rc.0",
     "@jfront/ui-core": "^0.3.4",
     "@jfront/ui-label": "^0.3.3",
     "@reduxjs/toolkit": "^1.4.0",

@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import queryString from "query-string";
 import { Feature, FeatureSearchTemplate } from "./api/FeatureInterface";
-import { getResultSetSize, postSearchRequest, searchFeatures } from "./api/FeatureSearchApi";
+import { featureCrudApi } from "./api/FeatureSearchApi";
 import { AppThunk, RootState } from "./../../app/store";
-import { SearchRequest } from "../../app/common/types";
+// import { SearchRequest } from "../../app/common/types";
+import { SearchRequest } from "@jfront/core-rest";
 
 interface FeatureSearchState {
   searchTemplate: string;
@@ -81,11 +82,11 @@ export const fetchSearchFeatures = (
     };
 
     dispatch(isLoading(true));
-    postSearchRequest(searchRequest).then((searchId) => {
-      getResultSetSize(searchId).then((resultSize) => {
+    featureCrudApi.postSearchRequest(searchRequest).then((searchId) => {
+      featureCrudApi.getResultSetSize(searchId).then((resultSize) => {
         if (resultSize > 0) {
           if (searchId) {
-            searchFeatures(searchId, pageSize, page).then((features) => {
+            featureCrudApi.search(searchId, pageSize, page).then((features) => {
               dispatch(searchSuccess(features));
               dispatch(setSearchTemplate(searchRequestString));
               dispatch(isLoading(false));

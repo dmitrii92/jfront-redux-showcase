@@ -15,7 +15,7 @@ export const getFeature = (id?: string): Promise<Feature> => {
     });
 };
 
-export const createFeature = (feature: FeatureCreate): Promise<Feature> => {
+export const createFeatureApi = (feature: FeatureCreate): Promise<Feature> => {
   const url = `${API_URL}/feature`;
   return new Promise<Feature>((resolve, reject) => {
     axios

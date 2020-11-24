@@ -13,17 +13,15 @@ import {
   ToolbarButtonView,
   ToolbarSplitter,
 } from "@jfront/ui-core";
-import { selectFeature } from "../featureSlice";
+import { selectFeature, submitSaveOnCreate, submitSaveOnEdit } from "../featureSlice";
 import {
   selectSearchPage,
   selectSearchPageSize,
   selectSearchResult,
-  selectSearchTemplate,
   submitSearch,
 } from "../featureSearchSlice";
-import { Feature, FeatureSearchTemplate } from "../api/FeatureInterface";
+import { Feature } from "../api/FeatureInterface";
 import { selectState, Workstates } from "../../../app/WorkstateSlice";
-import { SearchRequest } from "../../../app/common/types";
 
 const FeatureToolbar = () => {
   const { t } = useTranslation();
@@ -34,8 +32,6 @@ const FeatureToolbar = () => {
   const features: Array<Feature> = useSelector(selectSearchResult);
   const searchPage: number = useSelector(selectSearchPage);
   const searchPageSize: number = useSelector(selectSearchPageSize);
-  const searchTemplate: SearchRequest<FeatureSearchTemplate> = useSelector(selectSearchTemplate);
-  // const submitSearch = useSelector(selectSearchSubmit);
 
   return (
     <Toolbar>
@@ -45,10 +41,22 @@ const FeatureToolbar = () => {
       />
       <ToolbarButtonSave
         disabled={Workstates.FeatureCreate !== state && Workstates.FeatureEdit !== state}
+        onClick={() => {
+          
+          if (Workstates.FeatureCreate === state) {
+            console.log("submitSaveOnCreate");
+            dispatch(submitSaveOnCreate());
+          } else if (Workstates.FeatureEdit == state) {
+            console.log("submitSaveOnEdit");
+            dispatch(submitSaveOnEdit());
+          }
+        }}
       />
       <ToolbarButtonEdit
         disabled={!currentFeature}
-        onClick={() => history.push(`/${currentFeature?.featureId}/edit`)}
+        onClick={() => {
+          history.push(`/${currentFeature?.featureId}/edit`);
+        }}
       />
       <ToolbarButtonDelete disabled={!currentFeature} />
       <ToolbarButtonView

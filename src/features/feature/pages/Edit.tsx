@@ -1,22 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { Form } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
-import { selectFeature, setCurrentFeature } from "../featureSlice";
+import {
+  selectFeature,
+  selectSaveOnEditFeature,
+  setCurrentFeature,
+  submitSavedOnEdit,
+} from "../featureSlice";
 import { getFeature, updateFeature } from "../api/FeatureApi";
 import { Feature, FeatureUpdate } from "../api/FeatureInterface";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
 
 const EditPage = () => {
+  let formRef = useRef(null) as any;
   const history = useHistory();
   let { featureId } = useParams();
   const { t } = useTranslation();
+  const onSaveFeature = useSelector(selectSaveOnEditFeature);
 
   const dispatch = useDispatch();
   const currentFeature: Feature = useSelector(selectFeature);
+
+  useEffect(() => {
+    if (onSaveFeature) {
+      dispatch(submitSavedOnEdit);
+      formRef.current?.dispatchEvent(new Event("submit"));
+    }
+  }, [onSaveFeature]);
 
   const onSubmit = (data: FeatureUpdate) => {
     if (featureId) {
@@ -47,7 +61,7 @@ const EditPage = () => {
 
   return (
     <>
-      <Form id="edit-form" onSubmit={formik.handleSubmit}>
+      <Form id="edit-form" onSubmit={formik.handleSubmit} ref={formRef}>
         <Form.Field>
           <Form.Label>{t("feature.fields.featureId")}:</Form.Label>
           <Form.Label style={{ width: "350px", textAlign: "left" }}>

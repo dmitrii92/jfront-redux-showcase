@@ -2,20 +2,22 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form } from "@jfront/ui-core";
 import { TextInput } from "@jfront/ui-core";
-import { FeatureCreate } from "../api/FeatureInterface";
-import { createFeature } from "../api/FeatureApi";
+import { Feature, FeatureCreate } from "../api/FeatureInterface";
+import { selectSaveOnCreateFeature, setCreateFeature } from "../featureSlice";
 import { setState, Workstates } from "../../../app/WorkstateSlice";
+import { featureCrudApi } from "../api/FeatureCrudApi";
 
 const CreatePage = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const onCreateFeature = useSelector(selectSaveOnCreateFeature);
 
   const onSubmit = (data: FeatureCreate) => {
-    createFeature(data).then((feature) => {
+    featureCrudApi.create(data).then((feature: Feature) => {
       history.push(`/${feature.featureId}/detail`);
     });
   };
@@ -30,6 +32,16 @@ const CreatePage = () => {
       onSubmit(values);
     },
   });
+
+  useEffect(() => {
+    if (onCreateFeature) {
+      dispatch(setCreateFeature(false));
+      let button = document.getElementById("create-submit");
+      if (button) {
+        button.click();
+      }
+    }
+  }, [onCreateFeature]);
 
   useEffect(() => {
     dispatch(setState(Workstates.FeatureCreate));
